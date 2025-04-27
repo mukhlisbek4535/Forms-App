@@ -30,6 +30,7 @@ export const registerUser = async (req, res) => {
     res.status(201).json({
       message: "Successfully registered",
       user: {
+        _id: savedUser._id,
         email: savedUser.email,
         name: savedUser.name,
         status: savedUser.status,
@@ -82,7 +83,12 @@ export const loginUser = async (req, res) => {
     res.json({
       message: "Logged in successfully",
       token,
-      user: { email: user.email, name: user.name, status: user.status },
+      user: {
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        status: user.status,
+      },
     });
   } catch (err) {
     res.status(500).json({ error: "Login failed.", details: err.message });

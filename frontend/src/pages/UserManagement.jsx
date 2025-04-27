@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaTrashAlt, FaUnlockAlt } from "react-icons/fa";
-import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { StatusModal } from "./Modal";
 
@@ -8,16 +8,14 @@ const UserManagement = () => {
   const [statusModalMessage, setStatusModalMessage] = useState("");
 
   const navigate = useNavigate();
-  const { isLoggedIn } = useOutletContext();
-  if (!isLoggedIn) return <Navigate to="/login" />;
+  // const { isLoggedIn } = useContext(AuthContext);
+  // if (!isLoggedIn) return <Navigate to="/login" />;
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch(
-          "https://user-management-app-6ud8.onrender.com/users"
-        );
+        const response = await fetch("http://localhost:5001/users");
         const data = await response.json();
         setUsers(data);
       } catch (err) {

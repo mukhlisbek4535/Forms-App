@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { useAuth } from "../context/AuthContext";
 
 const ErrorModal = ({ message, onClose }) => {
   if (!message) return null;
@@ -20,34 +23,29 @@ const ErrorModal = ({ message, onClose }) => {
 };
 
 const Register = () => {
-  const [errorMessage, setErrorMessage] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { setIsLoggedIn } = useOutletContext();
   const navigate = useNavigate();
+  const [errorMessage, setErrormessage] = useState();
+  const { register: registerUser } = useAuth();
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm();
 
-    fetch("https://user-management-app-6ud8.onrender.com/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.user?.token) {
-          localStorage.setItem("token", data.user.token);
-          setIsLoggedIn(true);
-          navigate("/users");
-        } else if (data.error) {
-          setErrorMessage("This email is already registered. Try another one");
-        } else {
-          alert("Registration failed");
-        }
-      })
-      .catch((err) => console.error("Something went wrong", err));
+  async function onSubmit(data) {
+    try {
+      await registerUser(data);
+      toast.success("Registration successful!");
+      navigate("/users");
+    } catch (error) {
+      // const msg =
+      //   error.response?.data?.error ||
+      //   "This email is already registered. Try another one";
+      const msg = error.response?.data.error || "Registration failed.";
+      console.log(error);
+      setErrormessage(msg);
+    }
   }
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-100 via-white to-blue-100">
@@ -55,49 +53,70 @@ const Register = () => {
         <h2 className="text-3xl font-semibold mb-8 text-center text-blue-700 font-sans tracking-wide">
           Create an Account
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Name
             </label>
             <input
               type="text"
+              {...register("name", { required: "Name is required" })}
               className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
             />
+            {errors.name && (
+              <span className="text-red-600 text-sm">
+                {errors.name.message}
+              </span>
+            )}
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email
             </label>
             <input
-              type="email"
               className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
+              type="email"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address",
+                },
+              })}
             />
+            {errors.email && (
+              <span className="text-red-600 text-sm">
+                {errors.email.message}
+              </span>
+            )}
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Password
             </label>
             <input
-              type="password"
               className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              type="password"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 8,
+                  message: "Password must be at least 8 characters",
+                },
+              })}
             />
+            {errors.password && (
+              <span className="text-red-600 text-sm">
+                {errors.password.message}
+              </span>
+            )}
           </div>
           <button
             type="submit"
+            disabled={isSubmitting}
             className="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition-all duration-200"
           >
-            Sign Up
+            {isSubmitting ? "Signing Up..." : "Sign Up"}
           </button>
         </form>
         <div className="text-sm text-gray-600 text-center mt-6">
@@ -107,7 +126,7 @@ const Register = () => {
           </Link>
         </div>
       </div>
-      <ErrorModal message={errorMessage} onClose={() => setErrorMessage("")} />
+      <ErrorModal message={errorMessage} onClose={() => setErrormessage("")} />
     </div>
   );
 };

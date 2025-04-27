@@ -21,8 +21,12 @@ export const verifyToken = async (req, res, next) => {
       return res.status(403).json({ error: "User is blocked" });
     }
 
-    req.user = decoded;
-    console.log("Successful");
+    req.user = {
+      name: user.name,
+      userId: decoded.userId,
+      isAdmin: user.isAdmin,
+    };
+    req.token = token;
     next();
   } catch (err) {
     return res.status(401).json({ error: "Invalid token" });
