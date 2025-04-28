@@ -24,9 +24,12 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const authVerify = async () => {
       try {
-        const { data } = await axios.get("http://localhost:5001/verify", {
-          headers: { Authorization: `Bearer ${authState.token}` },
-        });
+        const { data } = await axios.get(
+          "https://forms-app-vff5.onrender.com/verify",
+          {
+            headers: { Authorization: `Bearer ${authState.token}` },
+          }
+        );
 
         setAuthState({ user: data.user, token: data.token, loading: false });
       } catch (error) {
@@ -46,7 +49,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:5001/login",
+        "https://forms-app-vff5.onrender.com/login",
         credentials
       );
       localStorage.setItem("token", data.token);
@@ -64,7 +67,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (newUserData) => {
     try {
       const { data } = await axios.post(
-        "http://localhost:5001/register",
+        "https://forms-app-vff5.onrender.com/register",
         newUserData
       );
       localStorage.setItem("token", data.user.token);
@@ -79,7 +82,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("token");
     setAuthState({ user: null, token: null });
-    axios.post("http://localhost:5001/logout");
+    axios.post("https://forms-app-vff5.onrender.com/logout");
 
     return true;
     // setIsLoggedIn(false);

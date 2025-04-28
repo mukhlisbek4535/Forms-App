@@ -52,11 +52,15 @@ const TemplateCreate = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post("http://localhost:5001/templates", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.post(
+        "https://forms-app-vff5.onrender.com/templates",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       toast.success("Template created successfully!");
       navigate("/templates");
     } catch (error) {

@@ -18,7 +18,7 @@ const TemplateSubmit = () => {
     const fetchTemplate = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5001/templates/${id}`,
+          `https://forms-app-vff5.onrender.com/templates/${id}`,
           {
             headers: token ? { Authorization: `Bearer ${token}` } : {},
           }
@@ -69,7 +69,7 @@ const TemplateSubmit = () => {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:5001/response/submit",
+        "https://forms-app-vff5.onrender.com/response/submit",
         {
           templateId: template._id,
           templateVersion: template.version,

@@ -11,10 +11,24 @@ import authRouter from "./routes/authRoutes.js";
 import Template from "./models/templateModel.js";
 dotenv.config();
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://forms-app-frontend-o1c1.onrender.com",
+    ], // keep localhost for dev!
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  })
+);
 const server = createServer(app);
 const io = new Server(server, {
-  cors: { origin: "http://localhost:5173", methods: ["GET", "POST"] }, //correct port (the frontend port) here
+  cors: {
+    origin: [
+      "http://localhost:5173",
+      "https://forms-app-frontend-o1c1.onrender.com",
+    ],
+    methods: ["GET", "POST"],
+  }, //correct port (the frontend port) here
 });
 
 export { io };
@@ -50,5 +64,7 @@ app.use("/", authRouter);
 // Connect to MongoDB and start server
 connectDB().then(async () => {
   await Template.syncIndexes();
-  server.listen(PORT, () => console.log(`🚀 Server started on port ${PORT}`));
+  server.listen(PORT, "0.0.0.0", () =>
+    console.log(`🚀 Server started on port ${PORT}`)
+  );
 });

@@ -13,11 +13,14 @@ const TemplatesList = () => {
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const { data } = await axios.get("http://localhost:5001/templates/my", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const { data } = await axios.get(
+          "https://forms-app-vff5.onrender.com/templates/my",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setTemplates(data.templates || []);
       } catch (err) {
         setError("Failed to load templates. " + err);
@@ -33,11 +36,14 @@ const TemplatesList = () => {
     if (!confirm("Are you sure you want to delete this template?")) return;
 
     try {
-      await axios.delete(`http://localhost:5001/templates/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.delete(
+        `https://forms-app-vff5.onrender.com/templates/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setTemplates((prev) => prev.filter((t) => t._id !== id));
     } catch (err) {
       alert("Delete failed. You may not have permission.");

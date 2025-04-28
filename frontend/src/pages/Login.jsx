@@ -25,6 +25,7 @@ const Login = () => {
       // setIsLoggedIn(true);
       navigate(location.state?.from?.pathname || "/users");
     } catch (error) {
+      console.log(error);
       toast.error("Login failed: " + error.response.data.message);
       alert(error.response.data.error);
     }

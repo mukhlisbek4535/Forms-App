@@ -79,7 +79,7 @@ const submitResponse = async (req, res) => {
     });
     const { io } = await import("../server.js");
 
-    io.to(templateId).emit("new-reponse", { templateId: templateId });
+    io.to(templateId).emit("new-response", { templateId: templateId });
 
     res.status(200).json({
       name: req.user?.name || null,

@@ -18,7 +18,7 @@ const TemplateResponses = () => {
     const fetchResponses = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5001/response/${id}`,
+          `https://forms-app-vff5.onrender.com/response/${id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

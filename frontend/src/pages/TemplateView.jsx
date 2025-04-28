@@ -31,13 +31,13 @@ const TemplateView = () => {
     const fetchTemplate = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5001/templates/${id}`,
+          `https://forms-app-vff5.onrender.com/templates/${id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
         const { data: refreshedTemplate } = await axios.get(
-          `http://localhost:5001/templates/${id}`,
+          `https://forms-app-vff5.onrender.com/templates/${id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -72,7 +72,7 @@ const TemplateView = () => {
       try {
         setLoadingComments(true);
         const { data } = await axios.get(
-          `http://localhost:5001/templates/${id}/comments`,
+          `https://forms-app-vff5.onrender.com/templates/${id}/comments`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -91,7 +91,7 @@ const TemplateView = () => {
 
   // Setup Socket connection
   useEffect(() => {
-    const newSocket = io("http://localhost:5001");
+    const newSocket = io("https://forms-app-vff5.onrender.com");
     setSocket(newSocket);
 
     newSocket.emit("join-room", id);
@@ -127,7 +127,7 @@ const TemplateView = () => {
     }
     try {
       const { data } = await axios.post(
-        `http://localhost:5001/templates/${id}/like`,
+        `https://forms-app-vff5.onrender.com/templates/${id}/like`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -148,7 +148,7 @@ const TemplateView = () => {
 
     try {
       await axios.post(
-        `http://localhost:5001/templates/${id}/comments`,
+        `https://forms-app-vff5.onrender.com/templates/${id}/comments`,
         { content: newComment },
         {
           headers: { Authorization: `Bearer ${token}` },

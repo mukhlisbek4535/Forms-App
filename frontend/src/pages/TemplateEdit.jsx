@@ -49,7 +49,7 @@ const TemplateEdit = () => {
     const fetchTemplate = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5001/templates/${id}`,
+          `https://forms-app-vff5.onrender.com/templates/${id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -83,9 +83,13 @@ const TemplateEdit = () => {
 
   const onSubmit = async (data) => {
     try {
-      await axios.put(`http://localhost:5001/templates/${id}`, data, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.put(
+        `https://forms-app-vff5.onrender.com/templates/${id}`,
+        data,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       toast.success("Template updated successfully!");
       navigate("/templates");
     } catch (err) {

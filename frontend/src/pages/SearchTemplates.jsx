@@ -23,7 +23,7 @@ const SearchTemplates = () => {
       setError("");
       try {
         const { data } = await axios.get(
-          `http://localhost:5001/templates/search?q=${queryFromUrl}`,
+          `https://forms-app-vff5.onrender.com/templates/search?q=${queryFromUrl}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
