@@ -20,6 +20,7 @@ app.use(
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   })
 );
+app.use(express.json()); // Parses incoming JSON requests
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
@@ -55,7 +56,7 @@ io.on("connection", (socket) => {
 });
 
 const PORT = process.env.PORT || 5001;
-app.use(express.json()); // Parses incoming JSON requests
+
 app.use("/", userRoute);
 app.use("/templates", templateRoutes);
 app.use("/response", responseRouter);
