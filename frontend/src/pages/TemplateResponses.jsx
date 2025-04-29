@@ -13,6 +13,7 @@ const TemplateResponses = () => {
   const [responses, setResponses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [socket, setSocket] = useState(null);
 
   // Fetch responses
 
