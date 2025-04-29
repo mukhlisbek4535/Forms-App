@@ -13,16 +13,18 @@ dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: ["https://formsappfrontend.netlify.app", "http://localhost:5173"], // keep localhost for dev!
+    origin: ["https://forms-app-theta.vercel.app", "http://localhost:5173"], // keep localhost for dev!
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true,
   })
 );
 app.use(express.json()); // Parses incoming JSON requests
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["https://formsappfrontend.netlify.app", "http://localhost:5173"],
+    origin: ["https://forms-app-theta.vercel.app", "http://localhost:5173"],
     methods: ["GET", "POST"],
+    credentials: true,
   }, //correct port (the frontend port) here
 });
 
