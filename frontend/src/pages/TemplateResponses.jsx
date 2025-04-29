@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import dayjs from "dayjs"; // for formatting date nicely
+import { io } from "socket.io-client";
 
 const TemplateResponses = () => {
   const { id } = useParams(); // /templates/:id/responses
@@ -14,32 +15,50 @@ const TemplateResponses = () => {
   const [error, setError] = useState("");
 
   // Fetch responses
-  useEffect(() => {
-    const fetchResponses = async () => {
-      try {
-        const { data } = await axios.get(
-          `https://forms-app-vff5.onrender.com/response/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setTemplateTitle(data.templateTitle);
-        setResponses(data.responses || []);
-      } catch (err) {
-        console.log(err);
-        setError(
-          err.response?.data?.message ||
-            "Failed to fetch responses. You may not have access."
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
 
+  const fetchResponses = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://forms-app-vff5.onrender.com/response/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setTemplateTitle(data.templateTitle);
+      setResponses(data.responses || []);
+    } catch (err) {
+      console.log(err);
+      setError(
+        err.response?.data?.message ||
+          "Failed to fetch responses. You may not have access."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchResponses();
   }, [id, token]);
+
+  useEffect(() => {
+    const newSocket = io("https://forms-app-vff5.onrender.com");
+    setSocket(newSocket);
+
+    newSocket.emit("join-room", id); // Join template room
+    newSocket.on("new-response", (data) => {
+      if (data.templateId === id) {
+        console.log("New response received — refreshing...");
+        fetchResponses(); // Refresh responses
+      }
+    });
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, [id]);
 
   if (loading) return <p className="text-center mt-10">Loading responses...</p>;
   if (error) return <p className="text-center text-red-600 mt-10">{error}</p>;
