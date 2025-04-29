@@ -13,10 +13,7 @@ dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://forms-app-frontend-o1c1.onrender.com",
-    ], // keep localhost for dev!
+    origin: ["https://formsappfrontend.netlify.app", "http://localhost:5173"], // keep localhost for dev!
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   })
 );
@@ -24,10 +21,7 @@ app.use(express.json()); // Parses incoming JSON requests
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: [
-      "http://localhost:5173",
-      "https://forms-app-frontend-o1c1.onrender.com",
-    ],
+    origin: ["https://formsappfrontend.netlify.app", "http://localhost:5173"],
     methods: ["GET", "POST"],
   }, //correct port (the frontend port) here
 });
