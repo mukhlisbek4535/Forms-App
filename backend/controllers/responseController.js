@@ -143,3 +143,111 @@ export const getResponsesByTemplateId = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: error });
   }
 };
+
+// 🚩 Add this to your responseController.js
+export const getAggregatedResultsByTemplateId = async (req, res) => {
+  try {
+    const { templateId } = req.params;
+
+    // 1️⃣ Fetch the template and verify it exists
+    const template = await Template.findById(templateId);
+    if (!template) {
+      return res.status(404).json({ message: "Template not found." });
+    }
+
+    // 2️⃣ Check if requester is creator or admin
+    // const isOwnerOrAdmin =
+    //   req.user.isAdmin || req.user.userId === template.createdBy.toString();
+    if (!isOwnerOrAdmin(req.user, template.createdBy)) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    // 3️⃣ Fetch all responses for this template
+    const responses = await Response.find({ templateId });
+
+    // 4️⃣ Set up result structure by question
+    const results = template.questions.map((question) => {
+      const qResult = {
+        questionId: question._id,
+        questionText: question.questionText,
+        questionType: question.questionType,
+        summary: {},
+      };
+
+      const answersToThisQuestion = responses
+        .map((res) =>
+          res.answers.find(
+            (ans) => ans.questionId.toString() === question._id.toString()
+          )
+        )
+        .filter(Boolean); // Remove undefineds
+
+      // 5️⃣ Process based on question type
+      switch (question.questionType) {
+        case "checkbox":
+          // For multiple selections
+          const optionCounts = {};
+          question.options.forEach((opt) => {
+            optionCounts[opt] = 0;
+          });
+
+          answersToThisQuestion.forEach((ans) => {
+            (ans.selectedOptions || []).forEach((opt) => {
+              if (optionCounts.hasOwnProperty(opt)) {
+                optionCounts[opt]++;
+              }
+            });
+          });
+
+          qResult.summary = optionCounts;
+          break;
+
+        case "dropdown":
+          const dropdownCounts = {};
+          question.options.forEach((opt) => {
+            dropdownCounts[opt] = 0;
+          });
+
+          answersToThisQuestion.forEach((ans) => {
+            if (dropdownCounts.hasOwnProperty(ans.answerText)) {
+              dropdownCounts[ans.answerText]++;
+            }
+          });
+
+          qResult.summary = dropdownCounts;
+          break;
+
+        case "number":
+          const numbers = answersToThisQuestion
+            .map((ans) => Number(ans.answerText))
+            .filter((n) => !isNaN(n));
+
+          const total = numbers.reduce((sum, n) => sum + n, 0);
+          qResult.summary = {
+            average: numbers.length ? (total / numbers.length).toFixed(2) : 0,
+            min: Math.min(...numbers),
+            max: Math.max(...numbers),
+            count: numbers.length,
+          };
+          break;
+
+        case "single-line":
+        case "multi-line":
+          qResult.summary = {
+            responseCount: answersToThisQuestion.length,
+          };
+          break;
+
+        default:
+          qResult.summary = { note: "Unsupported question type" };
+      }
+
+      return qResult;
+    });
+
+    res.status(200).json({ templateTitle: template.title, results });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};

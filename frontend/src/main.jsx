@@ -24,6 +24,7 @@ import SearchTemplates from "./pages/SearchTemplates.jsx";
 import TemplateSubmit from "./pages/TemplateSubmit.jsx";
 import ThankYou from "./pages/ThankYou.jsx";
 import TemplateResponses from "./pages/TemplateResponses.jsx";
+import TemplateResults from "./pages/TemplateResults.jsx";
 
 const Main = () => {
   // const { isLoggedIn } = React.useContext(AuthContext); // Moved context use inside component
@@ -73,6 +74,7 @@ const Main = () => {
                 </ProtectedRoute>
               ),
             },
+            { path: ":id/results", element: <TemplateResults /> },
             {
               path: ":id/responses",
               element: (
