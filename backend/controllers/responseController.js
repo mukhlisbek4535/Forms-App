@@ -21,7 +21,10 @@ const validateAnswers = (answer, question) => {
 };
 
 const isAdminOrOwner = (user, templateOwnerId) => {
-  return user.isAdmin || user.userId.toString() === templateOwnerId.toString();
+  if (!user || !templateOwnerId) return false;
+  return (
+    user.isAdmin || user.userId?.toString() === templateOwnerId?.toString()
+  );
 };
 
 const submitResponse = async (req, res) => {
@@ -158,7 +161,11 @@ export const getAggregatedResultsByTemplateId = async (req, res) => {
     // 2️⃣ Check if requester is creator or admin
     // const isOwnerOrAdmin =
     //   req.user.isAdmin || req.user.userId === template.createdBy.toString();
-    if (!isAdminOrOwner(req.user, template.createdBy)) {
+    if (
+      !template ||
+      !template.createdBy ||
+      !isAdminOrOwner(req.user, template.createdBy)
+    ) {
       return res.status(403).json({ message: "Unauthorized" });
     }
 
