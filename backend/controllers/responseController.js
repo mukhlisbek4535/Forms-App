@@ -158,7 +158,7 @@ export const getAggregatedResultsByTemplateId = async (req, res) => {
     // 2️⃣ Check if requester is creator or admin
     // const isOwnerOrAdmin =
     //   req.user.isAdmin || req.user.userId === template.createdBy.toString();
-    if (!isOwnerOrAdmin(req.user, template.createdBy)) {
+    if (!isAdminOrOwner(req.user, template.createdBy)) {
       return res.status(403).json({ message: "Unauthorized" });
     }
 

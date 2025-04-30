@@ -93,6 +93,12 @@ const TemplatesList = () => {
                   View
                 </Link>
                 <Link
+                  to={`/templates/${template._id}/results`}
+                  className="text-blue-600 hover:underline mt-4 inline-block"
+                >
+                  📊 View Aggregated Results
+                </Link>
+                <Link
                   to={`/templates/${template._id}/fill`}
                   className="bg-blue-600 text-white rounded px-2 hover:bg-blue-700"
                 >
