@@ -3,7 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "sonner";
-import AsyncCreatableSelect from "react-select/async-creatable";
 import TagSelector from "../../components/TagSelector";
 
 const questionTypes = [
@@ -23,6 +22,7 @@ const TemplateCreate = () => {
     control,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
