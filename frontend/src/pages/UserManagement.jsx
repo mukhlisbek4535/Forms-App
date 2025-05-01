@@ -206,7 +206,7 @@ const UserManagement = () => {
               <FaTrashAlt />
             </button>
             {/* ✅ [NEW] Promote Button */}
-            <button
+            {user.isAdmin && <button
               title="Promote to Admin"
               onClick={() => handleUserRoleChange(true)}
               className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600"
@@ -221,7 +221,7 @@ const UserManagement = () => {
               className="bg-gray-600 text-white px-3 py-1 rounded-md hover:bg-gray-700"
             >
               Admin Demotion
-            </button>
+            </button>}
           </div>
         </div>
 

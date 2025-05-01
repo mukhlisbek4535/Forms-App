@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "sonner";
+import AsyncCreatableSelect from "react-select/async-creatable";
+import TagSelector from "../../components/TagSelector";
 
 const questionTypes = [
   "single-line",
@@ -28,6 +30,7 @@ const TemplateCreate = () => {
       description: "",
       topic: "",
       isPublic: true,
+      tags: [],
       questions: [
         {
           questionText: "",
@@ -106,6 +109,14 @@ const TemplateCreate = () => {
           <input type="checkbox" {...register("isPublic")} />
           <span>Publicly visible</span>
         </label>
+        <div>
+          <TagSelector
+            value={watch("tags")}
+            onChange={(tags) => {
+              setValue("tags", tags);
+            }}
+          />
+        </div>
 
         <hr className="my-4" />
 

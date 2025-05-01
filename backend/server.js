@@ -9,6 +9,7 @@ import { Server } from "socket.io";
 import { createServer } from "http";
 import authRouter from "./routes/authRoutes.js";
 import Template from "./models/templateModel.js";
+import tagRoutes from "./routes/tagRoutes.js";
 dotenv.config();
 const app = express();
 app.use(
@@ -57,6 +58,7 @@ app.use("/", userRoute);
 app.use("/templates", templateRoutes);
 app.use("/response", responseRouter);
 app.use("/", authRouter);
+app.use("/tags", tagRoutes);
 
 // Connect to MongoDB and start server
 connectDB().then(async () => {

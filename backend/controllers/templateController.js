@@ -2,10 +2,18 @@ import Template from "../models/templateModel.js";
 import Response from "../models/responseModel.js";
 import { validateQuestionTypes } from "../utils/validator.js";
 import mongoose from "mongoose";
+import { registerTags } from "./tagController.js";
 
 export const createTemplate = async (req, res) => {
   try {
-    const { title, description, topic, isPublic, questions } = req.body;
+    const {
+      title,
+      description,
+      topic,
+      isPublic,
+      questions,
+      tags = [],
+    } = req.body;
 
     if (!title || !questions || questions.length === 0)
       return res
@@ -19,6 +27,7 @@ export const createTemplate = async (req, res) => {
       title,
       description,
       topic,
+      tags,
       isPublic,
       createdBy: req.user.userId,
       questions: questions.map((question, index) => ({
@@ -29,6 +38,7 @@ export const createTemplate = async (req, res) => {
     });
 
     await template.save();
+    await registerTags(tags);
 
     res.status(201).json({
       message: "Template created successfully.",
