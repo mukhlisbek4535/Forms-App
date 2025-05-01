@@ -1,9 +1,9 @@
-// export const adminOverRide = async (req, res, next) => {
-//   if (req.user.isAdmin) {
-//     req.adminBypass = true;
-//   }
-//   next();
-// };
+export const adminOverRide = async (req, res, next) => {
+  if (req.user.isAdmin) {
+    req.adminBypass = true;
+  }
+  next();
+};
 
 export const isAdmin = async (req, res, next) => {
   if (!req.user?.isAdmin)
