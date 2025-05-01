@@ -168,3 +168,31 @@ export const deleteUsers = async (req, res) => {
       .json({ error: "Failed to delete users", details: err.message });
   }
 };
+
+export const updateUserRoles = async (req, res) => {
+  const { userIds, makeAdmin } = req.body;
+
+  if (!Array.isArray(userIds) || typeof makeAdmin !== "boolean") {
+    return res.status(400).json({ error: "Invalid request payload" });
+  }
+
+  try {
+    const updated = await User.updateMany(
+      { _id: { $in: userIds } },
+      { $set: { isAdmin: makeAdmin } }
+    );
+
+    const selfAffected = userIds.includes(req.user.userId);
+
+    let message = `Updated roles for ${updated.modifiedCount} user(s).`;
+    if (selfAffected) {
+      message += " You have updated your own admin status.";
+    }
+
+    res.status(200).json({ message });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "Failed to update user roles", details: err.message });
+  }
+};

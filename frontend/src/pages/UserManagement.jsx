@@ -3,6 +3,7 @@ import { FaTrashAlt, FaUnlockAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { StatusModal } from "./Modal";
+import axios from "axios";
 
 const UserManagement = () => {
   const [statusModalMessage, setStatusModalMessage] = useState("");
@@ -54,6 +55,37 @@ const UserManagement = () => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     };
   }
+
+  // ✅ [NEW] Utility: promote/demote roles with axios
+  const handleUserRoleChange = async (makeAdmin) => {
+    try {
+      const res = await axios.put(
+        "https://forms-app-vff5.onrender.com/roles",
+        {
+          userIds: selectedUsers,
+          makeAdmin,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      // ✅ Show success message
+      setStatusModalMessage(res.data.message);
+
+      // ✅ Refresh user list
+      const updated = await fetch("https://forms-app-vff5.onrender.com/users");
+      const updatedUsers = await updated.json();
+      setUsers(updatedUsers);
+      setSelectedUsers([]);
+    } catch (err) {
+      console.error("Failed to change roles", err);
+      setStatusModalMessage("Failed to update user roles");
+    }
+  };
 
   async function handleBlockUsers() {
     try {
@@ -173,6 +205,23 @@ const UserManagement = () => {
             >
               <FaTrashAlt />
             </button>
+            {/* ✅ [NEW] Promote Button */}
+            <button
+              title="Promote to Admin"
+              onClick={() => handleUserRoleChange(true)}
+              className="bg-green-500 text-white px-3 py-1 rounded-md hover:bg-green-600"
+            >
+              Admin Promotion
+            </button>
+
+            {/* ✅ [NEW] Demote Button */}
+            <button
+              title="Demote from Admin"
+              onClick={() => handleUserRoleChange(false)}
+              className="bg-gray-600 text-white px-3 py-1 rounded-md hover:bg-gray-700"
+            >
+              Admin Demotion
+            </button>
           </div>
         </div>
 
@@ -190,6 +239,7 @@ const UserManagement = () => {
               <th className="p-3 text-left">Email</th>
               <th className="p-3 text-left">Last Seen</th>
               <th className="p-3 text-left">Status</th>
+              <th className="p-3 text-left">Role</th>
             </tr>
           </thead>
           <tbody>
@@ -222,6 +272,7 @@ const UserManagement = () => {
                   >
                     {user.status.charAt(0).toUpperCase() + user.status.slice(1)}
                   </td>
+                  <td className="p-3">{user.isAdmin ? "Admin" : "User"}</td>
                 </tr>
               ))}
           </tbody>
