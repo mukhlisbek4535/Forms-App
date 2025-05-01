@@ -70,7 +70,7 @@ const TemplatesList = () => {
           No templates found. Start by creating one!
         </p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
           {templates.map((template) => (
             <div
               key={template._id}
@@ -102,7 +102,7 @@ const TemplatesList = () => {
                   to={`/templates/${template._id}/fill`}
                   className="bg-blue-600 text-white rounded px-2 hover:bg-blue-700"
                 >
-                  Fill Out This Form →
+                  Fill Out Form →
                 </Link>
                 <Link
                   to={`/templates/${template._id}/responses`}

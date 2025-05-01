@@ -83,7 +83,7 @@ const UserManagement = () => {
       setSelectedUsers([]);
     } catch (err) {
       console.error("Failed to change roles", err);
-      setStatusModalMessage("Failed to update user roles");
+      setStatusModalMessage(err.message || "Failed to update user roles");
     }
   };
 
