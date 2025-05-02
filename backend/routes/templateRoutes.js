@@ -10,6 +10,7 @@ import {
   searchTemplates,
   getPopularTemplates,
   toggleLikeTemplate,
+  searchTemplatesByTag,
 } from "../controllers/templateController.js";
 
 import { verifyToken } from "../middleware/authMiddleWare.js";
@@ -33,6 +34,7 @@ router.get("/:templateId/comments", verifyToken, getComments);
 router.post("/:templateId/comments", verifyToken, createComment);
 router.post("/:templateId/like", verifyToken, toggleLikeTemplate);
 router.get("/:id", verifyToken, getTemplateById);
+router.get("/searchByTag", verifyToken, searchTemplatesByTag);
 router.delete(
   "/:templateId",
   verifyToken,

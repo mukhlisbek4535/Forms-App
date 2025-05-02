@@ -1,4 +1,5 @@
 import Tag from "../models/tagModel.js";
+import Template from "../models/templateModel.js";
 
 // Autocomplete for tags
 export const searchTags = async (req, res) => {
@@ -31,5 +32,27 @@ export const registerTags = async (tags = []) => {
 
   if (operations.length > 0) {
     await Tag.bulkWrite(operations);
+  }
+};
+
+export const getPopularTags = async (req, res) => {
+  try {
+    const tagCounts = await Template.aggregate([
+      { $unwind: "$tags" }, // 👈 Flatten tags array
+      { $group: { _id: "$tags", count: { $sum: 1 } } }, // 👈 Group by tag name
+      { $sort: { count: -1 } }, // 👈 Descending sort by usage
+      { $limit: 20 }, // 👈 Top 20 tags (can tweak)
+    ]);
+
+    // Format the response
+    const popularTags = tagCounts.map((t) => ({
+      tag: t._id,
+      count: t.count,
+    }));
+
+    res.status(200).json(popularTags);
+  } catch (err) {
+    console.error("Failed to fetch popular tags", err);
+    res.status(500).json({ error: "Could not fetch popular tags" });
   }
 };

@@ -25,6 +25,7 @@ import TemplateSubmit from "./pages/TemplateSubmit.jsx";
 import ThankYou from "./pages/ThankYou.jsx";
 import TemplateResponses from "./pages/TemplateResponses.jsx";
 import TemplateResults from "./pages/TemplateResults.jsx";
+import TemplatesByTag from "./pages/TemplatesByTag.jsx";
 
 const Main = () => {
   // const { isLoggedIn } = React.useContext(AuthContext); // Moved context use inside component
@@ -42,6 +43,7 @@ const Main = () => {
             <LandingPage />
           ), // Use the context value here
         },
+        { path: "/search", element: <TemplatesByTag /> },
         {
           path: "/login",
           element: <Login />,

@@ -290,3 +290,27 @@ export const toggleLikeTemplate = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
+
+// ✅ Add this new controller function
+export const searchTemplatesByTag = async (req, res) => {
+  const { tag } = req.query;
+
+  // ✅ Validate input
+  if (!tag || tag.trim() === "") {
+    return res.status(400).json({ error: "Tag is required for search." });
+  }
+
+  try {
+    // ✅ Query templates that are PUBLIC and have the tag in their 'tags' array
+    const templates = await Template.find({
+      isPublic: true,
+      tags: { $regex: new RegExp(tag, "i") }, // Case-insensitive match
+    })
+      .sort({ createdAt: -1 }) // Newest first
+      .populate("createdBy", "name"); // Optional: show author name
+
+    res.status(200).json({ templates });
+  } catch (error) {
+    res.status(500).json({ error: "Search failed", details: error.message });
+  }
+};
