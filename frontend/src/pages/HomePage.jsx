@@ -1,7 +1,7 @@
 // src/pages/HomePage.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import TemplateCard from "../components/TemplateCard";
+// import TemplateCard from "../components/TemplateCard";
 import TagCloud from "../components/TagCloud";
 
 const HomePage = () => {
@@ -56,7 +56,7 @@ const HomePage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {latestTemplates.map((tpl) => (
               // <TemplateCard key={tpl._id} template={tpl} />
-              <h1>TemplateCard</h1>
+              <h1>TemplateCard {tpl}</h1>
             ))}
           </div>
         )}
