@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 // import TemplateCard from "../components/TemplateCard";
-import TagCloud from "../components/TagCloud";
+// import TagCloud from "../components/TagCloud";
+import TagCloud from "../../components/TagCloud.jsx";
+import TemplateCard from "../../components/TemplateCard.jsx";
 
 const HomePage = () => {
   const [latestTemplates, setLatestTemplates] = useState([]);
@@ -55,8 +57,8 @@ const HomePage = () => {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {latestTemplates.map((tpl) => (
+              <TemplateCard key={tpl._id} template={tpl} />
               // <TemplateCard key={tpl._id} template={tpl} />
-              <h1>TemplateCard {tpl}</h1>
             ))}
           </div>
         )}
