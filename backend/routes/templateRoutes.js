@@ -30,11 +30,11 @@ router.post("/", verifyToken, createTemplate);
 router.get("/my", verifyToken, getTemplates);
 router.get("/search", verifyToken, searchTemplates);
 router.get("/popular", verifyToken, getPopularTemplates);
+router.get("/searchByTag", verifyToken, searchTemplatesByTag);
 router.get("/:templateId/comments", verifyToken, getComments);
 router.post("/:templateId/comments", verifyToken, createComment);
 router.post("/:templateId/like", verifyToken, toggleLikeTemplate);
 router.get("/:id", verifyToken, getTemplateById);
-router.get("/searchByTag", verifyToken, searchTemplatesByTag);
 router.delete(
   "/:templateId",
   verifyToken,
