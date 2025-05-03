@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
-import TemplateCard from "../components/TemplateCard"; // assume we already have this component
 
 const TemplatesByTag = () => {
   const [searchParams] = useSearchParams();
@@ -52,7 +51,8 @@ const TemplatesByTag = () => {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         {results.map((template) => (
-          <TemplateCard key={template._id} template={template} />
+          // <TemplateCard key={template._id} template={template} />
+          <h1>Template card is gonna be here</h1>
         ))}
       </div>
     </div>
