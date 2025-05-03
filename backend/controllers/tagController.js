@@ -50,7 +50,7 @@ export const getPopularTags = async (req, res) => {
       count: t.count,
     }));
 
-    res.status(200).json(popularTags);
+    res.status(200).json({ tags: popularTags });
   } catch (err) {
     console.error("Failed to fetch popular tags", err);
     res.status(500).json({ error: "Could not fetch popular tags" });
