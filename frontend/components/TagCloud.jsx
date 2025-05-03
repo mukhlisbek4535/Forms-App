@@ -23,7 +23,7 @@ const TagCloud = () => {
         );
         setTags(res.data.tags || []);
       } catch (err) {
-        setError("Failed to load tag cloud.");
+        setError("Failed to load tag cloud..");
         console.error(err);
       }
     };
