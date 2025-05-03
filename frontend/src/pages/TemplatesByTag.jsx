@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+import TemplateCard from "../../components/TemplateCard.jsx";
 
 const TemplatesByTag = () => {
   const [searchParams] = useSearchParams();
@@ -29,6 +30,7 @@ const TemplatesByTag = () => {
         setResults(res.data.templates || []);
       } catch (err) {
         setError("Failed to fetch templates");
+        console.log(err);
       } finally {
         setLoading(false);
       }
@@ -51,8 +53,7 @@ const TemplatesByTag = () => {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
         {results.map((template) => (
-          // <TemplateCard key={template._id} template={template} />
-          <h1>Template card is gonna be here</h1>
+          <TemplateCard key={template._id} template={template} />
         ))}
       </div>
     </div>
