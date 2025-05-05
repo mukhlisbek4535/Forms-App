@@ -27,6 +27,7 @@ import TemplateResponses from "./pages/TemplateResponses.jsx";
 import TemplateResults from "./pages/TemplateResults.jsx";
 import TemplatesByTag from "./pages/TemplatesByTag.jsx";
 import HomePage from "./pages/HomePage.jsx";
+import SearchPage from "../components/FullTextSearchResults.jsx";
 
 const Main = () => {
   // const { isLoggedIn } = React.useContext(AuthContext); // Moved context use inside component
@@ -50,6 +51,7 @@ const Main = () => {
           path: "/login",
           element: <Login />,
         },
+        { path: "/searchFullText", element: <SearchPage /> },
         {
           path: "/register",
           element: <Register />,

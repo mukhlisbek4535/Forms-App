@@ -12,6 +12,7 @@ import {
   toggleLikeTemplate,
   searchTemplatesByTag,
   getLatestTemplates,
+  searchTemplatesByFullTextQuery,
 } from "../controllers/templateController.js";
 
 import { verifyToken } from "../middleware/authMiddleWare.js";
@@ -30,6 +31,7 @@ const router = express.Router();
 router.post("/", verifyToken, createTemplate);
 router.get("/my", verifyToken, getTemplates);
 router.get("/search", verifyToken, searchTemplates);
+router.get("/searchByFullText", verifyToken, searchTemplatesByFullTextQuery);
 router.get("/popular", verifyToken, getPopularTemplates);
 router.get("/searchByTag", verifyToken, searchTemplatesByTag);
 router.get("/latest", verifyToken, getLatestTemplates);

@@ -343,3 +343,33 @@ export const getLatestTemplates = async (req, res) => {
     res.status(500).json({ error: "Failed to get latest templates" });
   }
 };
+
+// 🔍 Search templates by full-text query
+export const searchTemplatesByFullTextQuery = async (req, res) => {
+  const { q } = req.query;
+
+  if (!q || q.trim() === "") {
+    return res.status(400).json({ message: "Search query is required" });
+  }
+
+  try {
+    // Build search filter
+    const searchRegex = new RegExp(q, "i"); // i = case-insensitive
+    const filter = {
+      $or: [
+        { title: searchRegex },
+        { description: searchRegex },
+        { tags: { $in: [searchRegex] } },
+      ],
+    };
+
+    const templates = await Template.find(filter)
+      .populate("createdBy", "name")
+      .populate("topic", "name");
+
+    res.status(200).json({ templates });
+  } catch (error) {
+    console.error("Search failed", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
