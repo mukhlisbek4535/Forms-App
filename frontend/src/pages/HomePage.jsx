@@ -17,7 +17,7 @@ const HomePage = () => {
         const token = localStorage.getItem("token");
 
         const [latestRes, popularRes] = await Promise.all([
-          axios.get("https://forms-app-vff5.onrender.com/templates/my", {
+          axios.get("https://forms-app-vff5.onrender.com/templates/latest", {
             headers: { Authorization: `Bearer ${token}` },
           }),
           axios.get("https://forms-app-vff5.onrender.com/templates/popular", {
@@ -25,7 +25,7 @@ const HomePage = () => {
           }),
         ]);
 
-        setLatestTemplates(latestRes.data.templates.slice(0, 6));
+        setLatestTemplates(latestRes.data.templates);
         setPopularTemplates(popularRes.data); // already top 5
       } catch (err) {
         console.error("Failed to fetch homepage data", err);

@@ -329,3 +329,17 @@ export const searchTemplatesByTag = async (req, res) => {
     res.status(500).json({ error: "Search failed", details: error.message });
   }
 };
+
+export const getLatestTemplates = async (req, res) => {
+  try {
+    const templates = await Template.find({ isPublic: true }) // public templates only
+      .sort({ createdAt: -1 })
+      .limit(6)
+      .populate("createdBy", "name")
+      .select("title description image createdBy");
+
+    res.status(200).json({ templates });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to get latest templates" });
+  }
+};
