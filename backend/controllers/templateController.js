@@ -105,7 +105,7 @@ export const getTemplates = async (req, res) => {
       : { $or: [{ createdBy: req.user.userId }, { isPublic: true }] };
 
     const templates = await Template.find(filter)
-      .populate("createdBy", "_id email")
+      .populate("createdBy", "_id email name")
       .populate("topic", "name description"); // ✅ Populate topic
     res.status(200).json({
       message: "Templates fetched successfully.",
@@ -254,7 +254,8 @@ export const getPopularTemplates = async (req, res) => {
     const templates = await Template.find()
       .sort({ responseCount: -1 })
       .limit(5)
-      .select("title description featuredImage responseCount");
+      .select("title description featuredImage responseCount")
+      .populate("createdBy", "name");
 
     res.json(templates);
   } catch (error) {
