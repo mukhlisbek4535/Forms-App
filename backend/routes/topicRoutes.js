@@ -10,7 +10,7 @@ import { verifyToken } from "../middleware/authMiddleWare.js";
 
 const router = express.Router();
 
-router.post("/", verifyToken, createTopic);
+router.post("/", createTopic);
 router.get("/", getAllTopics);
 router.get("/:slug", getTopicBySlug);
 router.put(":slug", verifyToken, updateTopic);
