@@ -35,6 +35,7 @@ export const registerUser = async (req, res) => {
         name: savedUser.name,
         status: savedUser.status,
         token,
+        isAdmin: savedUser.isAdmin,
       },
     });
   } catch (e) {

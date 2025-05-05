@@ -35,7 +35,8 @@ const Register = () => {
 
   async function onSubmit(data) {
     try {
-      await registerUser(data);
+      const res = await registerUser(data);
+      console.log(res);
       toast.success("Registration successful!");
       navigate("/users");
     } catch (error) {
