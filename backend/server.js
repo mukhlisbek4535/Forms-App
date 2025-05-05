@@ -10,6 +10,7 @@ import { createServer } from "http";
 import authRouter from "./routes/authRoutes.js";
 import Template from "./models/templateModel.js";
 import tagRoutes from "./routes/tagRoutes.js";
+import topicRoutes from "./routes/topicRoutes.js";
 dotenv.config();
 const app = express();
 app.use(
@@ -59,6 +60,7 @@ app.use("/templates", templateRoutes);
 app.use("/response", responseRouter);
 app.use("/", authRouter);
 app.use("/tags", tagRoutes);
+app.use("/topics", topicRoutes);
 
 // Connect to MongoDB and start server
 connectDB().then(async () => {

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "sonner";
 import TagSelector from "../../components/TagSelector";
+import { useState } from "react";
 
 const questionTypes = [
   "single-line",
@@ -16,6 +17,10 @@ const questionTypes = [
 const TemplateCreate = () => {
   const { token } = useAuth();
   const navigate = useNavigate();
+
+  const [topics, setTopics] = useState([]);
+  const [loadingTopics, setLoadingTopics] = useState(true);
+  const [topicError, setTopicError] = useState("");
 
   const {
     register,
@@ -52,6 +57,23 @@ const TemplateCreate = () => {
     control,
     name: "questions",
   });
+
+  // 📡 Fetch topics from backend on mount
+  useEffect(() => {
+    const fetchTopics = async () => {
+      try {
+        const res = await axios.get(
+          "https://forms-app-vff5.onrender.com/topics"
+        );
+        setTopics(res.data);
+      } catch (err) {
+        setTopicError("Failed to load topics");
+      } finally {
+        setLoadingTopics(false);
+      }
+    };
+    fetchTopics();
+  }, []);
 
   const onSubmit = async (data) => {
     try {
@@ -99,10 +121,26 @@ const TemplateCreate = () => {
 
         <div>
           <label className="font-medium">Topic</label>
-          <input
-            {...register("topic")}
-            className="w-full border px-3 py-2 rounded-lg"
-          />
+          {loadingTopics ? (
+            <p className="text-sm text-gray-500">Loading topics...</p>
+          ) : topicError ? (
+            <p className="text-red-500">{topicError}</p>
+          ) : (
+            <select
+              {...register("topic", { required: "Topic is required" })}
+              className="w-full border px-3 py-2 rounded-lg"
+            >
+              <option value="">-- Select a topic --</option>
+              {topics.map((topic) => (
+                <option key={topic._id} value={topic._id}>
+                  {topic.name}
+                </option>
+              ))}
+            </select>
+          )}
+          {errors.topic && (
+            <p className="text-red-500">{errors.topic.message}</p>
+          )}
         </div>
 
         <label className="flex items-center space-x-2">

@@ -19,7 +19,12 @@ const templateSchema = new Schema(
   {
     title: { type: String, required: true },
     description: { type: String },
-    topic: { type: String, index: true },
+    topic: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Topic",
+      required: true,
+      index: true,
+    },
     version: { type: Number, default: 0 },
     isPublic: { type: Boolean, default: true },
     createdBy: {
@@ -44,7 +49,7 @@ const templateSchema = new Schema(
 templateSchema.index({
   title: "text",
   description: "text",
-  topic: "text",
+  // topic: "text",
   "questions.questionText": "text",
   tags: "text",
 });

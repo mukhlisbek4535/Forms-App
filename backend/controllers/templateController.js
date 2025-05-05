@@ -3,13 +3,14 @@ import Response from "../models/responseModel.js";
 import { validateQuestionTypes } from "../utils/validator.js";
 import mongoose from "mongoose";
 import { registerTags } from "./tagController.js";
+import Topic from "../models/topicsModel.js";
 
 export const createTemplate = async (req, res) => {
   try {
     const {
       title,
       description,
-      topic,
+      topic, // should be topic ID
       isPublic,
       questions,
       tags = [],
@@ -23,10 +24,15 @@ export const createTemplate = async (req, res) => {
     const validationError = validateQuestionTypes(questions);
     if (validationError) return res.status(400).json(validationError);
 
+    // ✅ Validate topic ID exists
+    const topicExists = await Topic.findById(topic);
+    if (!topicExists)
+      return res.status(400).json({ message: "Invalid topic ID." });
+
     const template = new Template({
       title,
       description,
-      topic,
+      topic, // now saved as ObjectId
       tags,
       isPublic,
       createdBy: req.user.userId,
@@ -98,10 +104,9 @@ export const getTemplates = async (req, res) => {
       ? {}
       : { $or: [{ createdBy: req.user.userId }, { isPublic: true }] };
 
-    const templates = await Template.find(filter).populate(
-      "createdBy",
-      "_id email"
-    );
+    const templates = await Template.find(filter)
+      .populate("createdBy", "_id email")
+      .populate("topic", "name description"); // ✅ Populate topic
     res.status(200).json({
       message: "Templates fetched successfully.",
       templates,
@@ -113,7 +118,10 @@ export const getTemplates = async (req, res) => {
 
 export const getTemplateById = async (req, res) => {
   try {
-    const template = await Template.findById(req.params.id);
+    const template = await Template.findById(req.params.id).populate(
+      "topic",
+      "name description"
+    ); // ✅ Populate topic
 
     if (!template)
       return res.status(404).json({ message: "Template not found." });
@@ -183,6 +191,12 @@ export const updateTemplateById = async (req, res) => {
         message:
           "Template cannot be updated as it has already 'Submitted' responses.",
       });
+
+    if (topic) {
+      const topicExists = await Topic.findById(topic);
+      if (!topicExists)
+        return res.status(400).json({ message: "Invalid topic ID." });
+    }
 
     const updatedTemplate = await Template.findByIdAndUpdate(
       req.params.id,
