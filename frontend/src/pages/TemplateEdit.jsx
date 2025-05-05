@@ -20,6 +20,7 @@ const TemplateEdit = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
+  const [topics, setTopics] = useState([]);
 
   const {
     register,
@@ -44,6 +45,20 @@ const TemplateEdit = () => {
     name: "questions",
   });
 
+  useEffect(() => {
+    const fetchTopics = async () => {
+      try {
+        const res = await axios.get(
+          "https://forms-app-vff5.onrender.com/topics"
+        );
+        setTopics(res.data);
+      } catch (err) {
+        toast.error("Failed to load topics");
+      }
+    };
+    fetchTopics();
+  }, []);
+
   // Fetch existing template
   useEffect(() => {
     const fetchTemplate = async () => {
@@ -61,7 +76,7 @@ const TemplateEdit = () => {
         reset({
           title: template.title,
           description: template.description,
-          topic: template.topic,
+          topic: template.topic._id,
           isPublic: template.isPublic,
           version: template.version,
           questions: template.questions.map((q) => ({
@@ -128,10 +143,17 @@ const TemplateEdit = () => {
 
         <div>
           <label className="font-medium">Topic</label>
-          <input
+          <select
             {...register("topic")}
             className="w-full border px-3 py-2 rounded-lg"
-          />
+          >
+            <option value="">-- Select a topic --</option>
+            {topics.map((topic) => (
+              <option key={topic._id} value={topic._id}>
+                {topic.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <label className="flex items-center space-x-2">
