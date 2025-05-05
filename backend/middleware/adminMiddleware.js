@@ -9,7 +9,7 @@ export const isAdmin = async (req, res, next) => {
   if (!req.user?.isAdmin)
     return res
       .status(403)
-      .json({ message: "Only admmins can do this action." });
+      .json({ message: "Only admmins can do this action.", user: req.user });
 
   next();
 };
