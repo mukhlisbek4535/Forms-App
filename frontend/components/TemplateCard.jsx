@@ -3,6 +3,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const TemplateCard = ({ template }) => {
+  if (!template) {
+    console.log("template undefined");
+    return null;
+  }
   const { _id, title, description, image, createdBy } = template;
 
   return (

@@ -254,7 +254,7 @@ export const getPopularTemplates = async (req, res) => {
     const templates = await Template.find()
       .sort({ responseCount: -1 })
       .limit(5)
-      .select("title description featuredImage responseCount")
+      .select("title description image name responseCount")
       .populate("createdBy", "name");
 
     res.json(templates);
