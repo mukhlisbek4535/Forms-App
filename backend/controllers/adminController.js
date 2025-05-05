@@ -1,4 +1,4 @@
-import User from "../models/users";
+import User from "../models/users.js";
 
 export const updateAdminStatus = async (req, res) => {
   try {
