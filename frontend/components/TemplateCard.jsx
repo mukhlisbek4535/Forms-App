@@ -7,7 +7,7 @@ const TemplateCard = ({ template }) => {
     console.log("template undefined");
     return null;
   }
-  const { _id, title, description, image, createdBy } = template;
+  const { _id, title, description, image } = template;
 
   return (
     <Link
@@ -25,11 +25,6 @@ const TemplateCard = ({ template }) => {
       <div className="p-4 space-y-1">
         <h3 className="text-lg font-bold text-blue-700 truncate">{title}</h3>
         <p className="text-gray-600 text-sm line-clamp-3">{description}</p>
-        {createdBy?.name ? (
-          <p className="text-xs text-gray-500 mt-2">By {createdBy.name}</p>
-        ) : (
-          <p>Guest</p>
-        )}
       </div>
     </Link>
   );
