@@ -173,7 +173,7 @@ const TemplateView = () => {
         <p className="text-gray-700 mb-2">{template.description}</p>
       )}
       <p className="text-sm text-gray-500 mb-4">
-        Topic: <span className="italic">{template.topic.name || "N/A"}</span>
+        Topic: <span className="italic">{template.topic?.name || "N/A"}</span>
       </p>
 
       {/* ❤️ Likes */}
