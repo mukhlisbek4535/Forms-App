@@ -73,7 +73,7 @@ const Main = () => {
           path: "/templates",
           children: [
             {
-              path: "",
+              path: "dashboard",
               element: (
                 <ProtectedRoute>
                   <TemplateList />
