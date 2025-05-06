@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "sonner";
+import API from "../api/axios.js";
 
 const TemplateSubmit = () => {
   const { id } = useParams();
@@ -17,8 +18,9 @@ const TemplateSubmit = () => {
   useEffect(() => {
     const fetchTemplate = async () => {
       try {
-        const { data } = await axios.get(
-          `https://forms-app-vff5.onrender.com/templates/${id}`,
+        const { data } = await API.get(
+          `/templates/${id}`,
+          // `https://forms-app-vff5.onrender.com/templates/${id}`,
           {
             headers: token ? { Authorization: `Bearer ${token}` } : {},
           }
@@ -68,8 +70,9 @@ const TemplateSubmit = () => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post(
-        "https://forms-app-vff5.onrender.com/response/submit",
+      const { data } = await API.post(
+        `/response/submit`,
+        // "https://forms-app-vff5.onrender.com/response/submit",
         {
           templateId: template._id,
           templateVersion: template.version,

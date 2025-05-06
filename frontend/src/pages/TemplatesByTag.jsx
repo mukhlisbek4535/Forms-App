@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import TemplateCard from "../../components/TemplateCard.jsx";
+import API from "../api/axios.js";
 
 const TemplatesByTag = () => {
   const [searchParams] = useSearchParams();
@@ -19,8 +20,9 @@ const TemplatesByTag = () => {
 
       try {
         setLoading(true);
-        const res = await axios.get(
-          `https://forms-app-vff5.onrender.com/templates/searchByTag?tag=${tag}`,
+        const res = await API.get(
+          `/templates/searchByTag?tag=${tag}`,
+          // `https://forms-app-vff5.onrender.com/templates/searchByTag?tag=${tag}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

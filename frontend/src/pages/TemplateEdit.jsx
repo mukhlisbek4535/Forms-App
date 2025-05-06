@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "sonner";
+import API from "../api/axios.js";
 
 const questionTypes = [
   "single-line",
@@ -48,8 +49,9 @@ const TemplateEdit = () => {
   useEffect(() => {
     const fetchTopics = async () => {
       try {
-        const res = await axios.get(
-          "https://forms-app-vff5.onrender.com/topics"
+        const res = await API.get(
+          "/topics"
+          // "https://forms-app-vff5.onrender.com/topics"
         );
         setTopics(res.data);
       } catch (err) {
@@ -63,8 +65,9 @@ const TemplateEdit = () => {
   useEffect(() => {
     const fetchTemplate = async () => {
       try {
-        const { data } = await axios.get(
-          `https://forms-app-vff5.onrender.com/templates/${id}`,
+        const { data } = await API.get(
+          `/templates/${id}`,
+          // `https://forms-app-vff5.onrender.com/templates/${id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -98,8 +101,9 @@ const TemplateEdit = () => {
 
   const onSubmit = async (data) => {
     try {
-      await axios.put(
-        `https://forms-app-vff5.onrender.com/templates/${id}`,
+      await API.put(
+        `/templates/${id}`,
+        // `https://forms-app-vff5.onrender.com/templates/${id}`,
         data,
         {
           headers: { Authorization: `Bearer ${token}` },

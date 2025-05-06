@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import API from "../api/axios.js";
 
 const SearchTemplates = () => {
   const { token } = useAuth();
@@ -22,8 +23,9 @@ const SearchTemplates = () => {
       setLoading(true);
       setError("");
       try {
-        const { data } = await axios.get(
-          `https://forms-app-vff5.onrender.com/templates/search?q=${queryFromUrl}`,
+        const { data } = await API.get(
+          `/templates/search?q=${queryFromUrl}`,
+          // `https://forms-app-vff5.onrender.com/templates/search?q=${queryFromUrl}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

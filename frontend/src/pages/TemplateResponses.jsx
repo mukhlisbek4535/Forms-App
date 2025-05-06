@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import dayjs from "dayjs"; // for formatting date nicely
 import { io } from "socket.io-client";
+import API from "../api/axios.js";
 
 const TemplateResponses = () => {
   const { id } = useParams(); // /templates/:id/responses
@@ -19,8 +20,9 @@ const TemplateResponses = () => {
 
   const fetchResponses = async () => {
     try {
-      const { data } = await axios.get(
-        `https://forms-app-vff5.onrender.com/response/${id}`,
+      const { data } = await API.get(
+        `/response/${id}`,
+        // `https://forms-app-vff5.onrender.com/response/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -45,7 +47,13 @@ const TemplateResponses = () => {
   }, [id, token]);
 
   useEffect(() => {
-    const newSocket = io("https://forms-app-vff5.onrender.com");
+    const newSocket = io(
+      import.meta.env.VITE_SOCKET_URL,
+      {
+        withCredentials: true,
+      }
+      // "https://forms-app-vff5.onrender.com"
+    );
     setSocket(newSocket);
 
     newSocket.emit("join-room", id); // Join template room

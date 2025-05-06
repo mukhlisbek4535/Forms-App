@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import API from "../api/axios.js";
 
 const TemplatesList = () => {
   const { token, user, isAuthenticated } = useAuth();
@@ -13,8 +14,9 @@ const TemplatesList = () => {
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const { data } = await axios.get(
-          "https://forms-app-vff5.onrender.com/templates/my",
+        const { data } = await API.get(
+          "/templates/my",
+          // "https://forms-app-vff5.onrender.com/templates/my",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -36,8 +38,9 @@ const TemplatesList = () => {
     if (!confirm("Are you sure you want to delete this template?")) return;
 
     try {
-      await axios.delete(
-        `https://forms-app-vff5.onrender.com/templates/${id}`,
+      await API.delete(
+        `/templates/${id}`,
+        // `https://forms-app-vff5.onrender.com/templates/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

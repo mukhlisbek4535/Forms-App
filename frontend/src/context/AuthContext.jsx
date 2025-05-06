@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
+import API from "../api/axios.js";
 
 // Create AuthContext
 export const AuthContext = createContext({
@@ -24,8 +25,9 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const authVerify = async () => {
       try {
-        const { data } = await axios.get(
-          "https://forms-app-vff5.onrender.com/verify",
+        const { data } = await API.get(
+          "/verify",
+          // "https://forms-app-vff5.onrender.com/verify",
           {
             headers: { Authorization: `Bearer ${authState.token}` },
           }
@@ -48,8 +50,9 @@ export const AuthProvider = ({ children }) => {
   // Login function
   const login = async (credentials) => {
     try {
-      const { data } = await axios.post(
-        "https://forms-app-vff5.onrender.com/login",
+      const { data } = await API.post(
+        "/login",
+        // "https://forms-app-vff5.onrender.com/login",
         credentials
       );
       localStorage.setItem("token", data.token);
@@ -66,8 +69,9 @@ export const AuthProvider = ({ children }) => {
   // Register function
   const register = async (newUserData) => {
     try {
-      const { data } = await axios.post(
-        "https://forms-app-vff5.onrender.com/register",
+      const { data } = await API.post(
+        "/register",
+        // "https://forms-app-vff5.onrender.com/register",
         newUserData
       );
       localStorage.setItem("token", data.user.token);
@@ -82,7 +86,10 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("token");
     setAuthState({ user: null, token: null });
-    axios.post("https://forms-app-vff5.onrender.com/logout");
+    API.post(
+      "/logout"
+      // "https://forms-app-vff5.onrender.com/logout"
+    );
 
     return true;
     // setIsLoggedIn(false);

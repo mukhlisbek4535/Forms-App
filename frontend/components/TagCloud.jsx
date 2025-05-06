@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import API from "../src/api/axios.js";
 
 // Helper to scale font size
 const getFontSize = (count, min = 12, max = 28) => {
@@ -18,8 +19,10 @@ const TagCloud = () => {
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const res = await axios.get(
-          "https://forms-app-vff5.onrender.com/tags/popular"
+        const res = await API.get(
+          // removed axios for API
+          "/tags/popular"
+          // "https://forms-app-vff5.onrender.com/tags/popular"
         );
         setTags(res.data.tags || []);
       } catch (err) {

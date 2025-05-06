@@ -4,6 +4,7 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import dayjs from "dayjs";
 import { io } from "socket.io-client";
+import API from "../api/axios.js";
 
 const TemplateView = () => {
   const { id } = useParams(); // /templates/:id
@@ -30,14 +31,16 @@ const TemplateView = () => {
     if (!user) return;
     const fetchTemplate = async () => {
       try {
-        const { data } = await axios.get(
-          `https://forms-app-vff5.onrender.com/templates/${id}`,
+        const { data } = await API.get(
+          `/templates/${id}`,
+          // `https://forms-app-vff5.onrender.com/templates/${id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        const { data: refreshedTemplate } = await axios.get(
-          `https://forms-app-vff5.onrender.com/templates/${id}`,
+        const { data: refreshedTemplate } = await API.get(
+          `/templates/${id}`,
+          // `https://forms-app-vff5.onrender.com/templates/${id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -71,8 +74,9 @@ const TemplateView = () => {
     const fetchComments = async () => {
       try {
         setLoadingComments(true);
-        const { data } = await axios.get(
-          `https://forms-app-vff5.onrender.com/templates/${id}/comments`,
+        const { data } = await API.get(
+          `/templates/${id}/comments`,
+          // `https://forms-app-vff5.onrender.com/templates/${id}/comments`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -91,7 +95,11 @@ const TemplateView = () => {
 
   // Setup Socket connection
   useEffect(() => {
-    const newSocket = io("https://forms-app-vff5.onrender.com");
+    const newSocket = io(
+      import.meta.env.VITE_SOCKET_URL,
+      { withCredentials: true }
+      // "https://forms-app-vff5.onrender.com"
+    );
     setSocket(newSocket);
 
     newSocket.emit("join-room", id);
@@ -126,8 +134,9 @@ const TemplateView = () => {
       return;
     }
     try {
-      const { data } = await axios.post(
-        `https://forms-app-vff5.onrender.com/templates/${id}/like`,
+      const { data } = await API.post(
+        `/templates/${id}/like`,
+        // `https://forms-app-vff5.onrender.com/templates/${id}/like`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -147,8 +156,9 @@ const TemplateView = () => {
     if (!newComment.trim()) return;
 
     try {
-      await axios.post(
-        `https://forms-app-vff5.onrender.com/templates/${id}/comments`,
+      await API.post(
+        `/templates/${id}/comments`,
+        // `https://forms-app-vff5.onrender.com/templates/${id}/comments`,
         { content: newComment },
         {
           headers: { Authorization: `Bearer ${token}` },

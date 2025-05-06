@@ -5,6 +5,7 @@ import axios from "axios";
 // import TagCloud from "../components/TagCloud";
 import TagCloud from "../../components/TagCloud.jsx";
 import TemplateCard from "../../components/TemplateCard.jsx";
+import API from "../api/axios.js";
 
 const HomePage = () => {
   const [latestTemplates, setLatestTemplates] = useState([]);
@@ -17,12 +18,20 @@ const HomePage = () => {
         const token = localStorage.getItem("token");
 
         const [latestRes, popularRes] = await Promise.all([
-          axios.get("https://forms-app-vff5.onrender.com/templates/latest", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          axios.get("https://forms-app-vff5.onrender.com/templates/popular", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
+          API.get(
+            "/templates/latest",
+            // "https://forms-app-vff5.onrender.com/templates/latest",
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          ),
+          axios.get(
+            "/templates/popular",
+            // "https://forms-app-vff5.onrender.com/templates/popular",
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          ),
         ]);
 
         setLatestTemplates(latestRes.data.templates);

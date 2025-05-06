@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import TemplateCard from "./TemplateCard.jsx";
+import API from "../src/api/axios.js"; // Added this for switching between dev and prod
+
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const [results, setResults] = useState([]);
@@ -30,8 +32,10 @@ const SearchPage = () => {
 
         if (!endpoint) return;
 
-        const res = await axios.get(
-          `https://forms-app-vff5.onrender.com${endpoint}`,
+        const res = await API.get(
+          // removed axios for API
+          // `https://forms-app-vff5.onrender.com${endpoint}`,
+          `${endpoint}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

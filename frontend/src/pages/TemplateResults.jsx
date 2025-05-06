@@ -15,6 +15,7 @@ import {
   CartesianGrid,
   Legend,
 } from "recharts";
+import API from "../api/axios.js";
 
 const COLORS = [
   "#8884d8",
@@ -36,8 +37,9 @@ const TemplateResults = () => {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const { data } = await axios.get(
-          `https://forms-app-vff5.onrender.com/response/${id}/results`,
+        const { data } = await API.get(
+          `/response/${id}/results`,
+          // `https://forms-app-vff5.onrender.com/response/${id}/results`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

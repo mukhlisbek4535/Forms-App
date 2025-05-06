@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { toast } from "sonner";
 import TagSelector from "../../components/TagSelector";
 import { useEffect, useState } from "react";
+import API from "../api/axios.js";
 
 const questionTypes = [
   "single-line",
@@ -62,8 +63,9 @@ const TemplateCreate = () => {
   useEffect(() => {
     const fetchTopics = async () => {
       try {
-        const res = await axios.get(
-          "https://forms-app-vff5.onrender.com/topics"
+        const res = await API.get(
+          "/topics"
+          // "https://forms-app-vff5.onrender.com/topics"
         );
         setTopics(res.data);
       } catch (err) {
@@ -77,8 +79,9 @@ const TemplateCreate = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post(
-        "https://forms-app-vff5.onrender.com/templates",
+      const res = await API.post(
+        "/templates",
+        // "https://forms-app-vff5.onrender.com/templates",
         data,
         {
           headers: {

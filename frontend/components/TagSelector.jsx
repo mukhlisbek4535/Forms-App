@@ -1,6 +1,7 @@
 import React from "react";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import axios from "axios";
+import API from "../src/api/axios.js";
 
 const TagSelector = ({ value, onChange }) => {
   // 🔄 Load suggestions from backend
@@ -8,8 +9,10 @@ const TagSelector = ({ value, onChange }) => {
     if (!inputValue) return [];
 
     try {
-      const res = await axios.get(
-        `https://forms-app-vff5.onrender.com/tags?search=${inputValue}`
+      const res = await API.get(
+        // removed axios for API
+        `/tags?search=${inputValue}`
+        // `https://forms-app-vff5.onrender.com/tags?search=${inputValue}`
       );
 
       return res.data.map((tag) => ({
