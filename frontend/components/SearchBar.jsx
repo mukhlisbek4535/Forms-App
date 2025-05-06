@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,6 +16,9 @@ const SearchBar = () => {
   return (
     <nav className="bg-blue-600 px-4 py-3 shadow">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
+        <Link to="/home" className="text-2xl font-bold text-blue-600">
+          Home
+        </Link>
         <h1 className="text-xl font-bold text-white">Formify</h1>
         <form onSubmit={handleSearch} className="flex gap-2">
           <input
