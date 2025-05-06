@@ -46,6 +46,7 @@ const TemplatesList = () => {
       );
       setTemplates((prev) => prev.filter((t) => t._id !== id));
     } catch (err) {
+      console.log(err);
       alert("Delete failed. You may not have permission.");
     }
   };
