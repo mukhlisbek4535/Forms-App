@@ -19,7 +19,6 @@ import TemplateView from "./pages/TemplateView.jsx";
 import "./index.css";
 import LandingPage from "./pages/LandingPage.jsx";
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
 import SearchTemplates from "./pages/SearchTemplates.jsx";
 import TemplateSubmit from "./pages/TemplateSubmit.jsx";
 import ThankYou from "./pages/ThankYou.jsx";
@@ -55,14 +54,6 @@ const Main = () => {
         {
           path: "/users",
           element: <UserManagement />,
-        },
-        {
-          path: "/dashboard",
-          element: (
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          ),
         },
         { path: "/thank-you", element: <ThankYou /> },
         {
