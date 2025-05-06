@@ -144,7 +144,10 @@ export const deleteTemplate = async (req, res) => {
     if (!template)
       return res.status(404).json({ message: "Template not found." });
 
-    if (template.createdBy.toString() !== req.user.userId.toString())
+    if (
+      template.createdBy.toString() !== req.user.userId.toString() ||
+      !req.user.isAdmin
+    )
       return res
         .status(403)
         .json({ message: "Unauthorized to delete this template." });
