@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import slugify from "slugify"; // Helpful for SEO-friendly slugs like "education"
+import slugify from "slugify";
 
 const topicSchema = new mongoose.Schema(
   {
@@ -18,10 +18,9 @@ const topicSchema = new mongoose.Schema(
       default: "",
     },
   },
-  { timestamps: true } // Adds createdAt and updatedAt fields
+  { timestamps: true }
 );
 
-// Pre-save hook to auto-generate slug from name
 topicSchema.pre("save", function (next) {
   if (this.isModified("name")) {
     this.slug = slugify(this.name, { lower: true });

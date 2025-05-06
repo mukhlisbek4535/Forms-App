@@ -4,7 +4,6 @@ import axios from "axios";
 import API from "../src/api/axios.js";
 
 const TagSelector = ({ value, onChange }) => {
-  // 🔄 Load suggestions from backend
   const loadOptions = async (inputValue) => {
     if (!inputValue) return [];
 

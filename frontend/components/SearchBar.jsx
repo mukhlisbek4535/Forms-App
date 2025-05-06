@@ -9,7 +9,7 @@ const SearchBar = () => {
     e.preventDefault();
     if (searchTerm.trim()) {
       navigate(`/searchFullText?q=${encodeURIComponent(searchTerm)}`);
-      setSearchTerm(""); // clear input
+      setSearchTerm("");
     }
   };
 

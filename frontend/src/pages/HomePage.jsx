@@ -1,4 +1,3 @@
-// src/pages/HomePage.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 // import TemplateCard from "../components/TemplateCard";
@@ -35,7 +34,7 @@ const HomePage = () => {
         ]);
 
         setLatestTemplates(latestRes.data.templates);
-        setPopularTemplates(popularRes.data); // already top 5
+        setPopularTemplates(popularRes.data); // top 5 templates being fetched
       } catch (err) {
         console.error("Failed to fetch homepage data", err);
       } finally {
@@ -52,13 +51,11 @@ const HomePage = () => {
         Welcome to Formify
       </h1>
 
-      {/* ✅ Tag Cloud Section */}
       <section>
         <h2 className="text-xl font-semibold mb-2">Popular Tags</h2>
         <TagCloud />
       </section>
 
-      {/* ✅ Latest Templates Gallery */}
       <section>
         <h2 className="text-xl font-semibold mb-4">Latest Templates</h2>
         {loading ? (
@@ -67,13 +64,11 @@ const HomePage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {latestTemplates.map((tpl) => (
               <TemplateCard key={tpl._id} template={tpl} />
-              // <TemplateCard key={tpl._id} template={tpl} />
             ))}
           </div>
         )}
       </section>
 
-      {/* ✅ Top 5 Most Popular */}
       <section>
         <h2 className="text-xl font-semibold mt-10 mb-4">
           Top 5 Popular Templates

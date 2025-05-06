@@ -5,7 +5,7 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-import { AuthProvider, useAuth } from "./context/AuthContext"; // Ensure the context is correctly imported
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import App from "./App.jsx";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -43,7 +43,7 @@ const Main = () => {
             <Navigate to="/dashboard" />
           ) : (
             <LandingPage />
-          ), // Use the context value here
+          ),
         },
         { path: "/home", element: <HomePage /> },
         { path: "/search", element: <TemplatesByTag /> },

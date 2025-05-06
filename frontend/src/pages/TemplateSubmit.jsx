@@ -14,7 +14,6 @@ const TemplateSubmit = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // 1️⃣ Fetch Template
   useEffect(() => {
     const fetchTemplate = async () => {
       try {
@@ -28,7 +27,6 @@ const TemplateSubmit = () => {
 
         setTemplate(data.template);
 
-        // Initialize answers array with default empty values
         const initialAnswers = data.template.questions.map((q) => ({
           questionId: q._id,
           answerText: "",
@@ -47,7 +45,6 @@ const TemplateSubmit = () => {
     fetchTemplate();
   }, [id, token]);
 
-  // 2️⃣ Handle Input Change
   const handleInputChange = (index, value, isCheckbox = false, option = "") => {
     const newAnswers = [...answers];
 
@@ -65,7 +62,6 @@ const TemplateSubmit = () => {
     setAnswers(newAnswers);
   };
 
-  // 3️⃣ Submit Response
   const handleSubmit = async (e) => {
     e.preventDefault();
 

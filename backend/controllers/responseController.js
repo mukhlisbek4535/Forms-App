@@ -112,7 +112,6 @@ export const getResponsesByTemplateId = async (req, res) => {
     //     message: "Not authorized to view the responses for this template",
     //   });
 
-    // Authorization check
     if (!isAdminOrOwner(req.user, template.createdBy)) {
       return res.status(403).json({ error: "Unauthorized" });
     }
@@ -147,18 +146,15 @@ export const getResponsesByTemplateId = async (req, res) => {
   }
 };
 
-// 🚩 Add this to your responseController.js
 export const getAggregatedResultsByTemplateId = async (req, res) => {
   try {
     const { templateId } = req.params;
 
-    // 1️⃣ Fetch the template and verify it exists
     const template = await Template.findById(templateId);
     if (!template) {
       return res.status(404).json({ message: "Template not found." });
     }
 
-    // 2️⃣ Check if requester is creator or admin
     // const isOwnerOrAdmin =
     //   req.user.isAdmin || req.user.userId === template.createdBy.toString();
     if (
@@ -169,10 +165,8 @@ export const getAggregatedResultsByTemplateId = async (req, res) => {
       return res.status(403).json({ message: "Unauthorized" });
     }
 
-    // 3️⃣ Fetch all responses for this template
     const responses = await Response.find({ templateId });
 
-    // 4️⃣ Set up result structure by question
     const results = template.questions.map((question) => {
       const qResult = {
         questionId: question._id,
@@ -189,10 +183,8 @@ export const getAggregatedResultsByTemplateId = async (req, res) => {
         )
         .filter(Boolean); // Remove undefineds
 
-      // 5️⃣ Process based on question type
       switch (question.questionType) {
         case "checkbox":
-          // For multiple selections
           const optionCounts = {};
           question.options.forEach((opt) => {
             optionCounts[opt] = 0;

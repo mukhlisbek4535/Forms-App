@@ -59,7 +59,6 @@ const TemplateCreate = () => {
     name: "questions",
   });
 
-  // 📡 Fetch topics from backend on mount
   useEffect(() => {
     const fetchTopics = async () => {
       try {
@@ -102,7 +101,6 @@ const TemplateCreate = () => {
         Create a New Template
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Basic Fields */}
         <div>
           <label className="font-medium">Title</label>
           <input
@@ -163,7 +161,6 @@ const TemplateCreate = () => {
 
         <h2 className="text-xl font-semibold text-gray-700">Questions</h2>
 
-        {/* Render Question Fields */}
         {fields.map((field, index) => (
           <div
             key={field.id}
@@ -188,7 +185,6 @@ const TemplateCreate = () => {
               ))}
             </select>
 
-            {/* Only show options if type is checkbox or dropdown */}
             {["checkbox", "dropdown"].includes(
               watch(`questions.${index}.questionType`)
             ) && (
@@ -197,7 +193,6 @@ const TemplateCreate = () => {
                 placeholder="Option 1"
                 className="w-full border px-3 py-2 rounded"
               />
-              // For now we only show one option to keep it simple — we’ll improve later
             )}
 
             <label className="flex items-center space-x-2">

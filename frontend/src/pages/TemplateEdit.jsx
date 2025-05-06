@@ -75,7 +75,6 @@ const TemplateEdit = () => {
 
         const template = data.template;
 
-        // Reset form with fetched data
         reset({
           title: template.title,
           description: template.description,

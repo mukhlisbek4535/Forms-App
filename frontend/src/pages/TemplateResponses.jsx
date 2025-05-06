@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
-import dayjs from "dayjs"; // for formatting date nicely
+import dayjs from "dayjs";
 import { io } from "socket.io-client";
 import API from "../api/axios.js";
 
@@ -15,8 +15,6 @@ const TemplateResponses = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [socket, setSocket] = useState(null);
-
-  // Fetch responses
 
   const fetchResponses = async () => {
     try {
@@ -60,7 +58,7 @@ const TemplateResponses = () => {
     newSocket.on("new-response", (data) => {
       if (data.templateId === id) {
         console.log("New response received — refreshing...");
-        fetchResponses(); // Refresh responses
+        fetchResponses();
       }
     });
 

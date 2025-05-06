@@ -1,4 +1,3 @@
-// routes/authRoutes.js
 import express from "express";
 import User from "../models/users.js";
 import { verifyToken } from "../middleware/authMiddleWare.js";
@@ -22,7 +21,7 @@ router.get("/verify", verifyToken, async (req, res) => {
         email: user.email,
         isAdmin: user.isAdmin,
       },
-      token: req.token, // Optional: if you want to refresh the token here
+      token: req.token,
     });
   } catch (error) {
     res.status(500).json({ error: "Verification failed" });

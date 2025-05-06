@@ -10,7 +10,7 @@ export const createTemplate = async (req, res) => {
     const {
       title,
       description,
-      topic, // should be topic ID
+      topic,
       isPublic,
       questions,
       tags = [],
@@ -24,7 +24,6 @@ export const createTemplate = async (req, res) => {
     const validationError = validateQuestionTypes(questions);
     if (validationError) return res.status(400).json(validationError);
 
-    // ✅ Validate topic ID exists
     const topicExists = await Topic.findById(topic);
     if (!topicExists)
       return res.status(400).json({ message: "Invalid topic ID." });
@@ -32,7 +31,7 @@ export const createTemplate = async (req, res) => {
     const template = new Template({
       title,
       description,
-      topic, // now saved as ObjectId
+      topic,
       tags,
       isPublic,
       createdBy: req.user.userId,
@@ -60,7 +59,7 @@ export const createTemplate = async (req, res) => {
 
 export const reOrderQuestions = async (req, res) => {
   try {
-    const { newOrder } = req.body; // newOrder should be an array of question IDs in the desired order
+    const { newOrder } = req.body;
 
     const template = await Template.findById(req.params.id);
     if (!template)
@@ -100,13 +99,13 @@ export const reOrderQuestions = async (req, res) => {
 
 export const getTemplates = async (req, res) => {
   try {
-    const filter = req.user.isAdmin // isAdmin should be added to the User schema, and verifyToken like "decoded => {userId, isAdmin}"
+    const filter = req.user.isAdmin
       ? {}
       : { $or: [{ createdBy: req.user.userId }, { isPublic: true }] };
 
     const templates = await Template.find(filter)
       .populate("createdBy", "_id email name")
-      .populate("topic", "name description"); // ✅ Populate topic
+      .populate("topic", "name description");
     res.status(200).json({
       message: "Templates fetched successfully.",
       templates,
@@ -121,7 +120,7 @@ export const getTemplateById = async (req, res) => {
     const template = await Template.findById(req.params.id).populate(
       "topic",
       "name description"
-    ); // ✅ Populate topic
+    );
 
     if (!template)
       return res.status(404).json({ message: "Template not found." });
@@ -243,7 +242,6 @@ export const searchTemplates = async (req, res) => {
   }
 };
 
-// Course requirement: top 5 most popular
 export const getPopularTemplates = async (req, res) => {
   try {
     const templates = await Template.find()
@@ -261,7 +259,7 @@ export const getPopularTemplates = async (req, res) => {
 export const toggleLikeTemplate = async (req, res) => {
   try {
     const templateId = req.params.templateId;
-    const userId = new mongoose.Types.ObjectId(req.user.userId); // Ensure userId is ObjectId
+    const userId = new mongoose.Types.ObjectId(req.user.userId);
 
     const template = await Template.findById(templateId);
     if (!template) {
@@ -273,21 +271,17 @@ export const toggleLikeTemplate = async (req, res) => {
     );
 
     if (hasLiked) {
-      // Remove like
       await Template.findByIdAndUpdate(templateId, {
         $pull: { likedBy: userId },
       });
     } else {
-      // Add like
       await Template.findByIdAndUpdate(templateId, {
         $addToSet: { likedBy: userId },
       });
     }
 
-    // Fetch the updated like count
     const updatedTemplate = await Template.findById(templateId);
 
-    // Emit real-time update
     const { io } = await import("../server.js");
     io.to(templateId).emit("template-liked", {
       templateId,
@@ -301,23 +295,20 @@ export const toggleLikeTemplate = async (req, res) => {
   }
 };
 
-// ✅ Add this new controller function
 export const searchTemplatesByTag = async (req, res) => {
   const { tag } = req.query;
 
-  // ✅ Validate input
   if (!tag || tag.trim() === "") {
     return res.status(400).json({ error: "Tag is required for search." });
   }
 
   try {
-    // ✅ Query templates that are PUBLIC and have the tag in their 'tags' array
     const templates = await Template.find({
       isPublic: true,
-      tags: { $regex: new RegExp(tag, "i") }, // Case-insensitive match
+      tags: { $regex: new RegExp(tag, "i") },
     })
-      .sort({ createdAt: -1 }) // Newest first
-      .populate("createdBy", "name"); // Optional: show author name
+      .sort({ createdAt: -1 })
+      .populate("createdBy", "name");
 
     res.status(200).json({ templates });
   } catch (error) {
@@ -327,7 +318,7 @@ export const searchTemplatesByTag = async (req, res) => {
 
 export const getLatestTemplates = async (req, res) => {
   try {
-    const templates = await Template.find({ isPublic: true }) // public templates only
+    const templates = await Template.find({ isPublic: true })
       .sort({ createdAt: -1 })
       .limit(6)
       .populate("createdBy", "name")
@@ -339,7 +330,6 @@ export const getLatestTemplates = async (req, res) => {
   }
 };
 
-// 🔍 Search templates by full-text query
 export const searchTemplatesByFullTextQuery = async (req, res) => {
   const { q } = req.query;
 
@@ -348,8 +338,7 @@ export const searchTemplatesByFullTextQuery = async (req, res) => {
   }
 
   try {
-    // Build search filter
-    const searchRegex = new RegExp(q, "i"); // i = case-insensitive
+    const searchRegex = new RegExp(q, "i");
     const filter = {
       $or: [
         { title: searchRegex },

@@ -2,7 +2,6 @@ import { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import API from "../api/axios.js";
 
-// Create AuthContext
 export const AuthContext = createContext({
   user: null,
   token: null,
@@ -21,7 +20,7 @@ export const AuthProvider = ({ children }) => {
   });
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Check login state from localStorage
+  // for checking login state from localStorage
   useEffect(() => {
     const authVerify = async () => {
       try {
@@ -47,7 +46,7 @@ export const AuthProvider = ({ children }) => {
     // }
   }, []);
 
-  // Login function
+  // Login function --->>>>
   const login = async (credentials) => {
     try {
       const { data } = await API.post(
@@ -66,7 +65,7 @@ export const AuthProvider = ({ children }) => {
     // localStorage.setItem("isLoggedIn", "true");
   };
 
-  // Register function
+  // Register function ------>>>>>>
   const register = async (newUserData) => {
     try {
       const { data } = await API.post(
@@ -82,7 +81,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout function
+  // Logout function ------>>>>>>>
   const logout = () => {
     localStorage.removeItem("token");
     setAuthState({ user: null, token: null });

@@ -1,14 +1,10 @@
-// ✅ src/components/TagCloud.jsx
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import API from "../src/api/axios.js";
 
-// Helper to scale font size
 const getFontSize = (count, min = 12, max = 28) => {
-  // Simple scale to font size based on count
-  const capped = Math.min(count, 20); // cap max count to 20
+  const capped = Math.min(count, 20);
   return `${min + ((max - min) * capped) / 20}px`;
 };
 

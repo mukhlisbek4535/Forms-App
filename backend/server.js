@@ -15,24 +15,24 @@ dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: ["https://forms-app-theta.vercel.app", "http://localhost:5173"], // keep localhost for dev!
+    origin: ["https://forms-app-theta.vercel.app", "http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
   })
 );
-app.use(express.json()); // Parses incoming JSON requests
+app.use(express.json());
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
     origin: ["https://forms-app-theta.vercel.app", "http://localhost:5173"],
     methods: ["GET", "POST"],
     credentials: true,
-  }, //correct port (the frontend port) here
+  },
 });
 
 export { io };
 
-const templateRooms = new Set(); // Set to store template rooms
+const templateRooms = new Set();
 // Socket.io connection
 io.on("connection", (socket) => {
   console.log(`New WebSocket (Socket: ${socket.id}) connected`);
@@ -40,7 +40,7 @@ io.on("connection", (socket) => {
   // Join template-specific room
   socket.on("join-room", (templateId) => {
     socket.join(templateId);
-    templateRooms.add(templateId); // Add the room to the set
+    templateRooms.add(templateId);
     console.log(`Socket (${socket.id}) joined room -> ${templateId}`);
   });
 

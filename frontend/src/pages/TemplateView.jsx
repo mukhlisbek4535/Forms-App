@@ -8,7 +8,7 @@ import API from "../api/axios.js";
 
 const TemplateView = () => {
   const { id } = useParams(); // /templates/:id
-  const { token, user, loading: verifyingLoading } = useAuth(); // 🛠 Extract user too!!
+  const { token, user, loading: verifyingLoading } = useAuth();
 
   const [template, setTemplate] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,11 +20,9 @@ const TemplateView = () => {
   const [loadingComments, setLoadingComments] = useState(true);
   const [commentError, setCommentError] = useState("");
 
-  // Likes-related ##
   const [likesCount, setLikesCount] = useState(0);
   const [hasLiked, setHasLiked] = useState(false);
 
-  // Fetch template info
   useEffect(() => {
     console.log(user, loading);
     if (verifyingLoading) return;
@@ -50,10 +48,9 @@ const TemplateView = () => {
         setLikesCount(refreshedTemplate.template.likedBy.length);
 
         if (user && user.userId) {
-          // ✅ check if user is available
           setHasLiked(data.template.likedBy.includes(user.userId));
         } else {
-          setHasLiked(false); // or leave default
+          setHasLiked(false);
         }
       } catch (err) {
         console.error(err);
@@ -69,7 +66,6 @@ const TemplateView = () => {
     if (user) fetchTemplate();
   }, [id, token, user, verifyingLoading]);
 
-  // Fetch comments
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -186,7 +182,6 @@ const TemplateView = () => {
         Topic: <span className="italic">{template.topic?.name || "N/A"}</span>
       </p>
 
-      {/* ❤️ Likes */}
       <div className="flex items-center gap-2 mb-6">
         <button onClick={handleLikeToggle} className="text-red-500 text-xl">
           {hasLiked ? "❤️" : "🤍"}
@@ -194,7 +189,6 @@ const TemplateView = () => {
         <span className="text-gray-600">{likesCount} Likes</span>
       </div>
 
-      {/* 🔥 Questions List */}
       <div className="space-y-6">
         {template.questions.map((q, index) => (
           <div key={index} className="border p-4 rounded bg-gray-50">
@@ -248,7 +242,6 @@ const TemplateView = () => {
         ))}
       </div>
 
-      {/* 🔙 Back Link */}
       <div className="mt-6 flex justify-between">
         <Link
           to="/templates/dashboard"
@@ -258,7 +251,6 @@ const TemplateView = () => {
         </Link>
       </div>
 
-      {/* 💬 Comments Section */}
       <div className="mt-10">
         <h2 className="text-2xl font-bold mb-4 text-blue-700">Comments</h2>
 
@@ -280,7 +272,6 @@ const TemplateView = () => {
           </div>
         )}
 
-        {/* Add Comment Form */}
         <form onSubmit={handleSubmitComment} className="flex mt-6 gap-2">
           <input
             type="text"

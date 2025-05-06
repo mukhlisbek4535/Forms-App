@@ -1,11 +1,9 @@
 import Topic from "../models/topicsModel.js";
 
-// Create a new topic
 export const createTopic = async (req, res) => {
   try {
     const { name, description } = req.body;
 
-    // Check if topic already exists
     const existing = await Topic.findOne({ name });
     if (existing) {
       return res.status(400).json({ error: "Topic already exists" });
@@ -20,7 +18,6 @@ export const createTopic = async (req, res) => {
   }
 };
 
-// Get all topics
 export const getAllTopics = async (req, res) => {
   try {
     const topics = await Topic.find().sort({ createdAt: -1 });
@@ -30,7 +27,6 @@ export const getAllTopics = async (req, res) => {
   }
 };
 
-// Get a single topic by slug
 export const getTopicBySlug = async (req, res) => {
   try {
     const { slug } = req.params;
@@ -46,7 +42,6 @@ export const getTopicBySlug = async (req, res) => {
   }
 };
 
-// Update a topic
 export const updateTopic = async (req, res) => {
   try {
     const { slug } = req.params;
@@ -59,7 +54,7 @@ export const updateTopic = async (req, res) => {
 
     if (name) topic.name = name;
     if (description) topic.description = description;
-    await topic.save(); // triggers pre-save hook to regenerate slug
+    await topic.save();
 
     res.status(200).json(topic);
   } catch (error) {
@@ -67,7 +62,6 @@ export const updateTopic = async (req, res) => {
   }
 };
 
-// Delete a topic
 export const deleteTopic = async (req, res) => {
   try {
     const { slug } = req.params;

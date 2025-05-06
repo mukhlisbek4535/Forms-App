@@ -15,7 +15,6 @@ const SearchTemplates = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Fetch results when URL query changes
   useEffect(() => {
     if (!queryFromUrl.trim()) return;
 
@@ -42,7 +41,6 @@ const SearchTemplates = () => {
     fetchResults();
   }, [queryFromUrl, token]);
 
-  // Handle search submit
   const handleSearch = (e) => {
     e.preventDefault();
     if (query.trim()) {
