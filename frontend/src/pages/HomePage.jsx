@@ -25,7 +25,7 @@ const HomePage = () => {
               headers: { Authorization: `Bearer ${token}` },
             }
           ),
-          axios.get(
+          API.get(
             "/templates/popular",
             // "https://forms-app-vff5.onrender.com/templates/popular",
             {
