@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -23,8 +22,8 @@ const SearchBar = () => {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search tags..."
-            className="px-3 py-1 rounded text-black"
+            placeholder="Search by any keyword..."
+            className="px-3 py-1 rounded text-stone-800"
           />
           <button
             type="submit"
