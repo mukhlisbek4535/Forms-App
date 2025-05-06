@@ -39,11 +39,7 @@ const Main = () => {
       children: [
         {
           path: "/",
-          element: isAuthenticated ? (
-            <Navigate to="/dashboard" />
-          ) : (
-            <LandingPage />
-          ), // Use the context value here
+          element: isAuthenticated ? <Navigate to="/home" /> : <LandingPage />, // Use the context value here
         },
         { path: "/home", element: <HomePage /> },
         { path: "/search", element: <TemplatesByTag /> },
@@ -73,7 +69,7 @@ const Main = () => {
           path: "/templates",
           children: [
             {
-              path: "",
+              path: "dashboard",
               element: (
                 <ProtectedRoute>
                   <TemplateList />

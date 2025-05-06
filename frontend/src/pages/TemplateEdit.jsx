@@ -106,7 +106,7 @@ const TemplateEdit = () => {
         }
       );
       toast.success("Template updated successfully!");
-      navigate("/templates");
+      navigate("/templates/dashboard");
     } catch (err) {
       if (err.response?.status === 403) {
         toast.error(err.response.data.message);
