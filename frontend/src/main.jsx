@@ -71,6 +71,7 @@ const Main = () => {
         { path: "/thank-you", element: <ThankYou /> },
         {
           path: "/templates",
+          element: <Navigate to="/templates/dashboard" />,
           children: [
             {
               path: "dashboard",
