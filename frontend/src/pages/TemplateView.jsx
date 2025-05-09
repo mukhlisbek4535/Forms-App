@@ -244,7 +244,7 @@ const TemplateView = () => {
 
       <div className="mt-6 flex justify-between">
         <Link
-          to="/templates/dashboard"
+          to="/templates"
           className="text-blue-600 hover:underline font-medium"
         >
           ← Back to Templates

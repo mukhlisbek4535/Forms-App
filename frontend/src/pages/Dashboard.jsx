@@ -5,7 +5,7 @@ const Dashboard = () => {
   return (
     <div>
       <div>Dashboard</div>
-      <Link to="/templates/dashboard">Templates</Link>
+      <Link to="/templates">Templates</Link>
     </div>
   );
 };

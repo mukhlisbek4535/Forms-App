@@ -107,15 +107,16 @@ const TemplatesList = () => {
                 >
                   Fill Out Form →
                 </Link>
-                <Link
-                  to={`/templates/${template._id}/responses`}
-                  className="text-purple-600 hover:underline"
-                >
-                  View Responses
-                </Link>
+
                 {(String(user?._id) === String(template.createdBy?._id) ||
                   user?.isAdmin) && (
                   <>
+                    <Link
+                      to={`/templates/${template._id}/responses`}
+                      className="text-purple-600 hover:underline"
+                    >
+                      View Responses
+                    </Link>
                     <Link
                       to={`/templates/${template._id}/edit`}
                       className="text-green-600 hover:underline"

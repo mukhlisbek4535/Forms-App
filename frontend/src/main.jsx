@@ -39,11 +39,7 @@ const Main = () => {
       children: [
         {
           path: "/",
-          element: isAuthenticated ? (
-            <Navigate to="/dashboard" />
-          ) : (
-            <LandingPage />
-          ),
+          element: isAuthenticated ? <Navigate to="/home" /> : <LandingPage />,
         },
         { path: "/home", element: <HomePage /> },
         { path: "/search", element: <TemplatesByTag /> },
@@ -64,17 +60,16 @@ const Main = () => {
           path: "/dashboard",
           element: (
             <ProtectedRoute>
-              <Dashboard />
+              <HomePage />
             </ProtectedRoute>
           ),
         },
         { path: "/thank-you", element: <ThankYou /> },
         {
           path: "/templates",
-          element: <Navigate to="/templates/dashboard" />,
           children: [
             {
-              path: "dashboard",
+              path: "",
               element: (
                 <ProtectedRoute>
                   <TemplateList />

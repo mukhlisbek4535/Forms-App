@@ -5,6 +5,7 @@ import axios from "axios";
 import TagCloud from "../../components/TagCloud.jsx";
 import TemplateCard from "../../components/TemplateCard.jsx";
 import API from "../api/axios.js";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const [latestTemplates, setLatestTemplates] = useState([]);
@@ -52,7 +53,13 @@ const HomePage = () => {
       </h1>
 
       <section>
-        <h2 className="text-xl font-semibold mb-2">Popular Tags</h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold mb-2">Popular Tags</h2>
+          <Link to="/templates" className="text-blue-500 hover:underline">
+            Go to Templates
+          </Link>
+        </div>
+
         <TagCloud />
       </section>
 
