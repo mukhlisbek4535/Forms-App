@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaTrashAlt, FaUnlockAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { StatusModal } from "./Modal";
 import axios from "axios";
@@ -243,6 +243,12 @@ const UserManagement = () => {
           </tbody>
         </table>
       </div>
+      <Link
+        to="/home"
+        className="max-w-5xl mx-auto text-blue-500 underline ml-9"
+      >
+        Back to dashboard
+      </Link>
 
       <StatusModal
         message={statusModalMessage}

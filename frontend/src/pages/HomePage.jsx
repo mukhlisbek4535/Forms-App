@@ -58,6 +58,9 @@ const HomePage = () => {
           <Link to="/templates" className="text-blue-500 hover:underline">
             Go to Templates
           </Link>
+          <Link to="/users" className="text-blue-500 hover:underline">
+            Go To Users Page
+          </Link>
         </div>
 
         <TagCloud />
