@@ -73,7 +73,8 @@ router.post("/salesforce/push", async (req, res) => {
     !company ||
     !firstName ||
     !lastName ||
-    !email
+    !email ||
+    !phone
   ) {
     return res.status(400).json({ error: "Missing required fields" });
   }

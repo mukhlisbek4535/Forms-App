@@ -41,6 +41,13 @@ const SalesforceSuccess = () => {
         payload
       );
       setStatus("✅ Successfully pushed to Salesforce!");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        company: "",
+        phone: "",
+      });
     } catch (err) {
       console.error(err);
       setStatus("❌ Failed to push data.");

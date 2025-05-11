@@ -243,16 +243,7 @@ const UserManagement = () => {
                   >
                     {user.status.charAt(0).toUpperCase() + user.status.slice(1)}
                   </td>
-                  <td className="p-3">
-                    {user.isAdmin ? "Admin" : "User"}
-                    <br />
-                    <button
-                      className="mt-2 bg-indigo-500 hover:bg-indigo-700 text-white text-xs px-2 py-1 rounded"
-                      onClick={() => handleOpenSalesforceForm(user)}
-                    >
-                      Push to Salesforce
-                    </button>
-                  </td>
+                  <td className="p-3">{user.isAdmin ? "Admin" : "User"}</td>
                 </tr>
               ))}
           </tbody>

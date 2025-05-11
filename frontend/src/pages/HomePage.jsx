@@ -48,9 +48,17 @@ const HomePage = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-10">
-      <h1 className="text-3xl font-bold text-center text-blue-600">
-        Welcome to Formify
-      </h1>
+      <div className="flex items-center justify-center gap-6 mt-6">
+        <h1 className="text-3xl font-bold mx-9 text-blue-600">
+          Welcome to Formify
+        </h1>
+        <a
+          href="https://forms-app-vff5.onrender.com/salesforce/auth"
+          className="bg-indigo-600 hover:bg-indigo-800 text-white px-4 py-2 rounded-xl shadow transition duration-200 text-sm"
+        >
+          Connect to Salesforce
+        </a>
+      </div>
 
       <section>
         <div className="flex justify-between items-center mb-4">
