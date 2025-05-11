@@ -11,6 +11,8 @@ import authRouter from "./routes/authRoutes.js";
 import Template from "./models/templateModel.js";
 import tagRoutes from "./routes/tagRoutes.js";
 import topicRoutes from "./routes/topicRoutes.js";
+import salesForceRoutes from "./routes/salesForceRoutes.js";
+
 dotenv.config();
 const app = express();
 app.use(
@@ -56,6 +58,7 @@ io.on("connection", (socket) => {
 const PORT = process.env.PORT || 5001;
 
 app.use("/", userRoute);
+app.use("/", salesForceRoutes);
 app.use("/templates", templateRoutes);
 app.use("/response", responseRouter);
 app.use("/", authRouter);
