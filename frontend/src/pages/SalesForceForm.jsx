@@ -57,7 +57,7 @@ const SalesforceSuccess = () => {
   return (
     <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded shadow">
       <h2 className="text-xl font-bold text-indigo-700 text-center mb-4">
-        Push Info to Salesforce CRM
+        Post data to Salesforce CRM
       </h2>
 
       {status && <p className="text-center text-sm mb-4">{status}</p>}
@@ -67,6 +67,7 @@ const SalesforceSuccess = () => {
           name="firstName"
           placeholder="First Name"
           required
+          value={formData.firstName}
           onChange={handleChange}
           className="w-full p-2 border rounded"
         />
@@ -74,6 +75,7 @@ const SalesforceSuccess = () => {
           name="lastName"
           placeholder="Last Name"
           required
+          value={formData.lastName}
           onChange={handleChange}
           className="w-full p-2 border rounded"
         />
@@ -82,6 +84,7 @@ const SalesforceSuccess = () => {
           placeholder="Email"
           type="email"
           required
+          value={formData.email}
           onChange={handleChange}
           className="w-full p-2 border rounded"
         />
@@ -89,6 +92,7 @@ const SalesforceSuccess = () => {
           name="company"
           placeholder="Company"
           required
+          value={formData.company}
           onChange={handleChange}
           className="w-full p-2 border rounded"
         />
@@ -96,6 +100,7 @@ const SalesforceSuccess = () => {
           name="phone"
           placeholder="Phone"
           required
+          value={formData.phone}
           onChange={handleChange}
           className="w-full p-2 border rounded"
         />
