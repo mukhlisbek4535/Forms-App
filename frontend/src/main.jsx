@@ -28,6 +28,7 @@ import TemplateResults from "./pages/TemplateResults.jsx";
 import TemplatesByTag from "./pages/TemplatesByTag.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import SearchPage from "../components/FullTextSearchResults.jsx";
+import SalesforceSuccess from "./pages/SalesForceForm.jsx";
 
 const Main = () => {
   // const { isLoggedIn } = React.useContext(AuthContext); // Moved context use inside component
@@ -47,6 +48,7 @@ const Main = () => {
           path: "/login",
           element: <Login />,
         },
+        { path: "/salesforce-success", element: <SalesforceSuccess /> },
         { path: "/searchFullText", element: <SearchPage /> },
         {
           path: "/register",
