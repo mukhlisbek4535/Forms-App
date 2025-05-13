@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import crypto from "crypto";
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -38,6 +39,11 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  apiToken: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
   preferences: {
     language: {
       type: String,
@@ -55,6 +61,13 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.index({ "preferences.language": 1, "preferences.theme": 1 });
+
+userSchema.pre("save", function (next) {
+  if (!this.apiToken) {
+    this.apiToken = crypto.randomBytes(24).toString("hex");
+  }
+  next();
+});
 
 const User = mongoose.model("User", userSchema);
 export default User;

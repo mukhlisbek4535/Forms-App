@@ -12,6 +12,7 @@ import Template from "./models/templateModel.js";
 import tagRoutes from "./routes/tagRoutes.js";
 import topicRoutes from "./routes/topicRoutes.js";
 import salesForceRoutes from "./routes/salesForceRoutes.js";
+import odooRoutes from "./routes/odooRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -64,6 +65,7 @@ app.use("/response", responseRouter);
 app.use("/", authRouter);
 app.use("/tags", tagRoutes);
 app.use("/topics", topicRoutes);
+app.use("/", odooRoutes);
 
 // Connect to MongoDB and start server
 connectDB().then(async () => {
