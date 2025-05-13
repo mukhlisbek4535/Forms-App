@@ -136,7 +136,7 @@ const UserManagement = () => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">User Management</h2>
           <a
-            href="https://forms-app-vff5.onrender.com/salesforce/auth"
+            href="https://forms-app-theta.vercel.app/salesforce-success"
             className="mt-2 inline-block bg-indigo-600 hover:bg-indigo-800 text-white px-4 py-2 rounded shadow text-sm"
           >
             Connect to Salesforce
